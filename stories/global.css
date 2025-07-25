@@ -1,0 +1,77 @@
+
+* {font-family:'Noto Sans KR','NotoSansKR-Regular','NotoSans-regular','Roboto-Regular', Tahoma, 'AppleGothic', sans-serif;}
+body {}
+body,p,h1,h2,h3,h4,h5,h6,ul,ol,li,dl,dt,dd,table,th,td,form,fieldset,legend,input,textarea,button,select{margin:0;padding:0;}
+body,input,textarea,select,button,table{font-size:13px;color:#333;outline:none}
+body,html{height:100%;overflow: auto;}
+img,fieldset{border:0;vertical-align:middle}
+ul,ol{list-style:none}
+em,address{font-style:normal}
+a{text-decoration:none;}
+a:hover,a:active,a:focus{text-decoration:none}
+caption{visibility:hidden;padding:0;margin:0;height:0}
+button{border:0;padding:0;background:transparent;cursor:pointer;*overflow:visible;font-family:'NotoSansKR-Regular','Roboto-Regular'}
+input{border:0;padding:0;background:transparent;*overflow:visible;}
+input[type="file"]{cursor:pointer}
+select,label{cursor:pointer}
+
+:root {
+	/**/
+	 --color-bg-page: #fff;
+	 
+	/* Primary Theme Colors */
+	 --color-primary: #35B7C4;      /* 메인 포인트 컬러 */
+	 
+	 /* navTab UI Colors */
+	 --color-nav-tab-on:#fff;			/*텝1 on 텍스트 컬러*/
+	 --color-navtab-border: #02AFBF;   /* 탭 테두리 */
+	 --color-navtab-bg: #3ABDC9;       /* 탭 배경 */
+	 --color-navtab-sub-bg: #E3F6F7;
+	 --color-navtab-sub-on: #299BA7; /*서브 on 텍스트 컬러*/
+	 
+	 /*callbox*/
+	 --color-call-box: #35B7C4;   /* 헤더배경색 */
+	 
+	 /* Tab UI Colors */
+	 --color-tab-bg: #FFA15D;   /* 탭 배경 */
+	 
+	 /* Grid/Table UI Colors */
+	 --color-grid-bg: #f6f6f6;      /* 그리드 배경 */
+	 --color-grid-border: #ebebeb;  /* 그리드 테두리 */
+
+	 /* Typography Colors */
+	 --color-text-primary: #333;    /* 기본 텍스트 */
+	 --color-text-secondary: #444;  /* 보조 텍스트 */
+	 --color-text-tertiary: #777;   /* 비활성/힌트 텍스트 */
+
+	 /* Navigation / Tab Active Background */
+    --font-size-base: 13px;
+}
+#storybook-root {
+  height:100% !important;
+}
+
+
+.flex{display: flex;}
+.flex-align{align-items: center;}
+.flex-end{justify-content:end;}
+.flex-column{flex-direction: column;}
+.flex-center{justify-content: center;}
+.flex-space-between{justify-content: space-between;}
+.flex1{flex:1;}
+
+.he100p{height: 100%!important;}
+.gap10{gap:10px;}
+.gap20{gap:20px;}
+.gap30{gap:30px;}
+.gap5{gap:5px;}
+.btn_gird{display: inline-block;height:30px;min-width: 64px;text-align: center;padding: 0 14px 0;background-color: #fff;font-size: 13px;color: #666; border: 1px solid #aaa;}
+.btn_gird:disabled{opacity: 0.5;cursor: default;}
+.wid210{width: 210px}
+.wid110{width: 110px}
+.wid100p{width: 100%;}
+.mgt10{margin-top: 10px}
+.mgt20{margin-top: 20px}
+.mab10{margin-bottom: 10px}
+
+h2 {display: inline-block;font-size: 15px;color: #000;padding: 15px 0 11px 0;font-weight: 500;}

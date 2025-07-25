@@ -1,0 +1,114 @@
+
+/* 조회조건 기본 스타일 */
+.topcondition {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.topcondition.underlinde {
+  border-bottom: 1px solid #A8A8A8;
+  margin: 0;
+}
+
+.topcondition .top-right {
+  display: flex;
+  color: #4f4f56;
+  align-items: center;
+}
+
+.topcondition .top-right .btn {
+  border: solid 1px #A8A8A8;
+  font-size: 13px;
+  color: #444;
+  border-radius: 2px;
+  padding: 0 15px;
+  min-width: 54px;
+  margin-left: 6px;
+  height: 26px;
+  line-height: 26px;
+}
+
+/* 새로고침 버튼 영역 */
+.topcondition .top-right .btn-refresh {
+  margin-left: 6px;
+}
+
+.topcondition .top-right .btn-refresh .dx-button-content {
+  padding: 0px;
+  font-size: 13px;
+}
+
+.topcondition .top-right .btn-refresh .dx-button-content .dx-icon.dx-icon-right {
+  margin-left: 3px;
+}
+
+.topcondition .top-right .btn-refresh .dx-button-mode-outlined {
+  border-color: #A8A8A8;
+  color: #444;
+  border-radius: 2px;
+  height: 26px;
+}
+
+.topcondition .top-right .btn-refresh .dx-button-content .dx-icon-refresh {
+  margin: 0;
+  width: 14px;
+  height: 12px;
+  margin: 0px 6px;
+}
+
+.topcondition .dx-icon-spindown:before {
+  content: '\f001';
+  background: none;
+  width: auto;
+  height: auto;
+}
+
+.topcondition .dx-button-has-text .dx-icon.dx-icon-spindown {
+  width: 18px;
+  height: 18px;
+}
+
+/*버튼 영역 */
+.topcondition .top-right .confirm-btn {
+  display: flex;
+}
+
+.topcondition .top-right .confirm-btn .btn {
+  background: #fff;
+  border: solid 1px #A8A8A8;
+  font-size: 13px;
+  color: #444;
+  border-radius: 2px;
+  padding: 0 15px;
+  min-width: 54px;
+  margin-left: 6px;
+  height: 26px;
+  line-height: 26px;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+/* 조회 버튼 (btn-sch) */
+.topcondition .top-right .confirm-btn .btn.btn-sch {
+  color: #fff;
+  background-color: var(--color-primary);
+  border: solid 1px var(--color-primary);
+  position: relative;
+}
+
+
+
+/* 버튼 비활성화 */
+.topcondition .top-right .confirm-btn .btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: #f9f9f9;
+}
+
+/* 첫 번째 버튼 마진 제거 */
+.topcondition .top-right .confirm-btn .btn:first-child {
+  margin-left: 0;
+}

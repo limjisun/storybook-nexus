@@ -1,0 +1,94 @@
+/* 숫자 카드 전체 영역 */
+.number_wrap .num_call {
+  display: flex;
+  background-color: #f0f2f7;
+  height: 100%;
+  border-radius: 4px;
+  justify-content: space-evenly;
+  padding: 1%;
+  box-sizing: border-box;
+}
+
+.number_wrap .num_call li {
+  background-color: #fff;
+  margin-right: 1%;
+  flex: 1;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  text-align: center;
+}
+
+.number_wrap .num_call li:last-child {
+  margin: 0;
+}
+
+.number_wrap .num_call li .number_txt {
+  margin: 8px 8px 0 8px;
+  background-color: #7891CD;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 1.1vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 0;
+}
+
+.number_wrap .num_call li .number_result {
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3.2vw;
+  font-weight: bold;
+  font-family: Roboto;
+  height: 100%;
+}
+
+.number_wrap .num_call li .number_result.wait {
+  color: #fe4141;
+}
+
+.number_wrap .num_call li .icon {
+  width: 25%;
+  height: 25%;
+  margin: 0 auto;
+  display: block;
+  margin-bottom: 11%;
+}
+
+/* 아이콘 스타일 (실제 이미지 사용) */
+.number_wrap .num_call li .icon.ic-receive {
+  background: url(../../images/board/call-receive@3x.png) no-repeat 50% 50%;
+  background-size: contain;
+}
+
+.number_wrap .num_call li .icon.ic-wait {
+  background: url(../../images/board/call-wait@3x.png) no-repeat 50% 50%;
+  background-size: contain;
+}
+
+.number_wrap .num_call li .icon.ic-answer {
+  background: url(../../images/board/call-answer@3x.png) no-repeat 50% 50%;
+  background-size: contain;
+}
+
+.number_wrap .num_call li .icon.ic-giveup {
+  background: url(../../images/board/call-giveup@3x.png) no-repeat 50% 50%;
+  background-size: contain;
+}
+
+.number_wrap .num_call li .icon.ic-send {
+  background: url(../../images/board/call-send@3x.png) no-repeat 50% 50%;
+  background-size: contain;
+}
+@media screen and (max-width: 1920px) {
+    .number_wrap .num_call li .number_result {
+        font-size: 44px;
+    }
+	.number_wrap .num_call li .number_txt {
+        font-size: 18px;
+    }
+}
