@@ -1,0 +1,40 @@
+
+> nexus-design@1.0.0 build-storybook
+> storybook build --output-dir=C:\Users\임지선\AppData\Local\Temp\chromatic--20108-fAEqk03T9qWN
+
+[1mstorybook v9.0.17
+[22m
+info => Cleaning outputDir: [36m..\..\..\AppData\Local\Temp\chromatic--20108-fAEqk03T9qWN[39m
+info => Loading presets
+info => Building manager..
+info => Building preview..
+[36mvite v6.3.5 [32mbuilding for production...[36m[39m
+transforming...
+[32m✓[39m 74 modules transformed.
+rendering chunks...
+computing gzip size...
+[2m../../../AppData/Local/Temp/chromatic--20108-fAEqk03T9qWN/[22m[32massets/context-C0qIqeS4.png                 [39m[1m[2m  6.12 kB[22m[1m[22m
+[2m../../../AppData/Local/Temp/chromatic--20108-fAEqk03T9qWN/[22m[32massets/styling-Bk6zjRzU.png                 [39m[1m[2m  7.24 kB[22m[1m[22m
+[2m../../../AppData/Local/Temp/chromatic--20108-fAEqk03T9qWN/[22m[32miframe.html                                 [39m[1m[2m 18.59 kB[22m[1m[22m[2m │ gzip:   5.17 kB[22m
+[2m../../../AppData/Local/Temp/chromatic--20108-fAEqk03T9qWN/[22m[32massets/docs---vsFbMi.png                    [39m[1m[2m 27.88 kB[22m[1m[22m
+[2m../../../AppData/Local/Temp/chromatic--20108-fAEqk03T9qWN/[22m[32massets/share-DGA-UcQf.png                   [39m[1m[2m 40.77 kB[22m[1m[22m
+[2m../../../AppData/Local/Temp/chromatic--20108-fAEqk03T9qWN/[22m[32massets/accessibility-W_h2acOZ.png           [39m[1m[2m 42.34 kB[22m[1m[22m
+[2m../../../AppData/Local/Temp/chromatic--20108-fAEqk03T9qWN/[22m[32massets/figma-plugin-CH2hELiO.png            [39m[1m[2m 44.25 kB[22m[1m[22m
+[2m../../../AppData/Local/Temp/chromatic--20108-fAEqk03T9qWN/[22m[32massets/theming-D6WJLNoW.png                 [39m[1m[2m 44.37 kB[22m[1m[22m
+[2m../../../AppData/Local/Temp/chromatic--20108-fAEqk03T9qWN/[22m[32massets/testing-cbzR9l9r.png                 [39m[1m[2m 49.31 kB[22m[1m[22m
+[2m../../../AppData/Local/Temp/chromatic--20108-fAEqk03T9qWN/[22m[32massets/addon-library-BWUCAmyN.png           [39m[1m[2m467.37 kB[22m[1m[22m
+[2m../../../AppData/Local/Temp/chromatic--20108-fAEqk03T9qWN/[22m[35massets/SearchForm-BnWmn3S_.css              [39m[1m[2m  1.05 kB[22m[1m[22m[2m │ gzip:   0.45 kB[22m
+[2m../../../AppData/Local/Temp/chromatic--20108-fAEqk03T9qWN/[22m[35massets/SearchCondition-BF_Uz6FB.css         [39m[1m[2m  1.68 kB[22m[1m[22m[2m │ gzip:   0.54 kB[22m
+[2m../../../AppData/Local/Temp/chromatic--20108-fAEqk03T9qWN/[22m[35massets/NumberCard-BL2saCGz.css              [39m[1m[2m  1.70 kB[22m[1m[22m[2m │ gzip:   0.52 kB[22m
+[2m../../../AppData/Local/Temp/chromatic--20108-fAEqk03T9qWN/[22m[35massets/iframe-BMu2atoA.css                  [39m[1m[2m  1.98 kB[22m[1m[22m[2m │ gzip:   0.91 kB[22m
+[2m../../../AppData/Local/Temp/chromatic--20108-fAEqk03T9qWN/[22m[36massets/index-OM0_I1g3.js                    [39m[1m[2m  0.45 kB[22m[1m[22m[2m │ gzip:   0.29 kB[22m
+[2m../../../AppData/Local/Temp/chromatic--20108-fAEqk03T9qWN/[22m[36massets/DocsRenderer-PQXLIZUC-WkMa7k01.js    [39m[1m[2m  1.90 kB[22m[1m[22m[2m │ gzip:   0.97 kB[22m
+[2m../../../AppData/Local/Temp/chromatic--20108-fAEqk03T9qWN/[22m[36massets/SearchCondition.stories-D242a3lG.js  [39m[1m[2m  9.60 kB[22m[1m[22m[2m │ gzip:   1.83 kB[22m
+[2m../../../AppData/Local/Temp/chromatic--20108-fAEqk03T9qWN/[22m[36massets/SearchForm.stories-D1taWhZB.js       [39m[1m[2m 10.27 kB[22m[1m[22m[2m │ gzip:   2.15 kB[22m
+[2m../../../AppData/Local/Temp/chromatic--20108-fAEqk03T9qWN/[22m[36massets/NumberCard.stories-DB8j9WoA.js       [39m[1m[2m 10.77 kB[22m[1m[22m[2m │ gzip:   2.04 kB[22m
+[2m../../../AppData/Local/Temp/chromatic--20108-fAEqk03T9qWN/[22m[36massets/Configure-D6bR08JD.js                [39m[1m[2m 25.37 kB[22m[1m[22m[2m │ gzip:  10.91 kB[22m
+[2m../../../AppData/Local/Temp/chromatic--20108-fAEqk03T9qWN/[22m[36massets/Color-AVL7NMMY-3gMnUoY2.js           [39m[1m[2m 29.30 kB[22m[1m[22m[2m │ gzip:  11.01 kB[22m
+[2m../../../AppData/Local/Temp/chromatic--20108-fAEqk03T9qWN/[22m[36massets/blocks-CC6JGov8.js                   [39m[1m[33m674.40 kB[39m[22m[2m │ gzip: 219.78 kB[22m
+[2m../../../AppData/Local/Temp/chromatic--20108-fAEqk03T9qWN/[22m[36massets/iframe-BV3OB-as.js                   [39m[1m[33m949.38 kB[39m[22m[2m │ gzip: 257.17 kB[22m
+[32m✓ built in 5.15s[39m
+info => Output directory: C:\Users\임지선\AppData\Local\Temp\chromatic--20108-fAEqk03T9qWN
