@@ -31,7 +31,7 @@ export default {
 // 기본 카드 데이터
 const defaultCards = [
   {
-    title: '실인입호',
+    title: '실인입',
     value: '0',
     className: 'enter',
     iconClass: 'ic-receive'
