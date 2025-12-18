@@ -1,0 +1,95 @@
+/* SearchCondition Component Styles */
+
+/* ========================================
+   Section Title (for Grouped layout)
+   ======================================== */
+.search-panel__title{
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 0px;
+}
+.search-panel__title h2{
+  color: #222;
+  font-size: 13px;
+  font-weight: 500;
+  flex: 1;
+}
+
+/* Toggle button */
+.search-panel__toggle {
+  width: 18px;
+  height: 18px;
+  background: url('/images/Search_arr_off.png') no-repeat center;
+  background-size: 9px;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+.search-panel__toggle--collapsed {
+  transform: rotate(180deg);
+}
+.search-panel__body{
+  border-top: 1px solid #EBEBEB;
+  border-bottom: 1px solid #EBEBEB;
+  padding: 12px 0;
+  max-height: 1000px;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease, border 0.3s ease;
+}
+.search-panel__body--collapsed {
+  max-height: 0;
+  padding: 0;
+  border-top: none;
+}
+.search-panel__row{
+  display: grid;
+  margin-bottom: 6px;
+}
+.search-panel__row:last-child{
+  margin-bottom: 0;
+}
+.search-panel__row.grid--cols-2{
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+}
+.search-panel__col{
+  display: flex;
+  align-items: center;
+}
+.search-panel__label{
+  width: 70px;
+  margin-right: 10px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+.search-panel__field{
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap:6px;
+}
+.search-panel__data{
+  width: 200px;
+}
+.search-panel__data--auto{
+  width: auto;
+}
+
+
+/* 반응형 스타일 */
+@media (max-width: 1540px) {
+  .search-panel__field .search-panel__data{
+    width: 170px;
+  }
+}
+@media screen and (max-width: 1440px) {
+  .search-panel__row.grid--cols-2{
+    grid-template-columns: repeat(1, 1fr);
+    gap: 6px;
+  }
+}
+

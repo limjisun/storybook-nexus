@@ -1,0 +1,158 @@
+.select {
+  position: relative;
+  width: 100%;
+  user-select: none;
+  min-width: 97px;
+}
+
+.select__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.select__trigger:hover {
+  
+}
+
+.select--open .select__trigger {
+
+}
+
+/* ========================================
+   Variant: Outlined (기본 - border 있음)
+   ======================================== */
+.select--outlined .select__trigger {
+  background-color: #ffffff;
+  border: 1px solid #e3e3e3;
+  border-radius: 0px;
+  padding: 3px 8px;
+
+}
+
+.select--outlined .select__trigger:hover {
+  border-color: #e3e3e3;
+}
+
+.select--outlined.select--open .select__trigger {
+
+}
+
+.select--outlined .select__arrow {
+  width: 12px;
+  height: 12px;
+  background-image: url('/images/down_icon_2.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: auto;
+}
+
+.select--outlined .select--open .select__arrow {
+  transform: rotate(180deg);
+}
+
+/* ========================================
+   Variant: Borderless (border 없음)
+   ======================================== */
+
+.select--borderless .select__trigger {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+}
+
+.select--borderless .select__trigger:hover {
+
+}
+
+.select--borderless.select--open .select__trigger {
+
+}
+
+
+.select--disabled .select__trigger {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.select__value {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.select__count {
+  color: #FC4A4A;
+  font-size: var(--font-size-sm);
+  margin-left: auto;
+}
+
+.select__arrow {
+  width: 10px;
+  height: 10px;
+  margin-left: 5px;
+  background-image: url('/images/down_icon_1.png');
+  background-repeat: no-repeat;
+  background-size: 9px;
+  background-position: center;
+}
+
+.select--open .select__arrow {
+  transform: rotate(180deg);
+}
+
+.select__dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: auto;
+  min-width: 100%;
+  width: max-content;
+  background-color: #ffffff;
+  border: 1px solid #dddddd;
+  padding: 12px;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+  animation: slideDown 0.2s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.select__option {
+  padding: 4px 6px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.select__option:hover {
+  background-color: #F4F6F9;
+}
+
+.select__option--selected {
+  background-color: #F4F6F9;
+}
+
+.select__option--selected:hover {
+  background-color: #F4F6F9;
+}
+

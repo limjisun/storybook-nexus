@@ -1,0 +1,32 @@
+/* Block: sidebar */
+.sidebar {width: 60px;background-color: var(--color-primary);height: calc(100vh - 60px);display: flex;flex-direction: column;}
+
+/* Element: sidebar__menu */
+.sidebar__menu {list-style: none;margin: 0;padding: 60px 0;display: flex;flex-direction: column;gap: 6px;}
+.sidebar__menu-item {position: relative;display: flex;justify-content: center;align-items: center;}
+.sidebar__menu-link {width: 60px;height: 54px;display: flex;align-items: center;justify-content: center;background-repeat: no-repeat;background-position: center;text-decoration: none;}
+.sidebar__menu-link--ticket {background-image: url('/images/ticket_off.png');}
+.sidebar__menu-link--list {background-image: url('/images/list_off.png');}
+.sidebar__menu-link--aiagent {background-image: url('/images/aiagent_off.png');}
+.sidebar__menu-link--monitor {background-image: url('/images/monitor_off.png');}
+.sidebar__menu-link--analytics {background-image: url('/images/analyzer_off.png');}
+.sidebar__menu-link--settings {background-image: url('/images/settings_off.png');}
+.sidebar__menu-link--scenario {background-image: url('/images/scenario_off.png');}
+.sidebar__menu-link--schedule {background-image: url('/images/schedule_off.png');}
+.sidebar__menu-link--control {background-image: url('/images/control_off.png');}
+.sidebar__menu-link--favorites {background-image: url('/images/favorites_off.png');}
+.sidebar__menu-link--ticket.sidebar__menu-link--active {background-image: url('/images/ticket_on.png');}
+.sidebar__menu-link--list.sidebar__menu-link--active {background-image: url('/images/list_on.png');}
+.sidebar__menu-link--aiagent.sidebar__menu-link--active {background-image: url('/images/aiagent_on.png');}
+.sidebar__menu-link--monitor.sidebar__menu-link--active {background-image: url('/images/monitor_on.png');}
+.sidebar__menu-link--analytics.sidebar__menu-link--active {background-image: url('/images/analyzer_on.png');}
+.sidebar__menu-link--settings.sidebar__menu-link--active {background-image: url('/images/settings_on.png');}
+.sidebar__menu-link--scenario.sidebar__menu-link--active {background-image: url('/images/scenario_on.png');}
+.sidebar__menu-link--schedule.sidebar__menu-link--active {background-image: url('/images/schedule_on.png');}
+.sidebar__menu-link--control.sidebar__menu-link--active {background-image: url('/images/control_on.png');}
+.sidebar__menu-link--favorites.sidebar__menu-link--active {background-image: url('/images/favorites_on.png');}
+.sidebar__menu-icon {display: block;width: 24px;height: 24px;}
+
+/* Element: sidebar__tooltip */
+.sidebar__tooltip {display: inline-block;position: absolute;top: 17px;padding: 0 4px;height: 20px;background-color: #fff;border: 1px solid var(--color-primary);color: var(--color-primary);font-size: 11px;font-weight: 500;line-height: 20px;white-space: nowrap;transition: opacity 0.2s;opacity: 0;pointer-events: none;z-index: 5;border-radius: 2px;margin-top: 0;left: 50px;}
+.sidebar__menu-item:hover .sidebar__tooltip {opacity: 1;}

@@ -1,0 +1,44 @@
+/* Block: sub-nav */
+.sub-nav {width: 220px;position: relative;background-color: #fff;border-right: 1px solid #EBEBEB;height: 100vh;display: flex;flex-direction: column;transition: width 0.3s ease;}
+.sub-nav--collapsed {width: 0;border-right: none;overflow: hidden;}
+
+/* Element: sub-nav__header */
+.sub-nav__header {height: 38px;padding: 0 12px;border-bottom: 1px solid #14AFBE;display: flex;justify-content: space-between;align-items: center;}
+.sub-nav__title {margin: 0;font-size: 14px;font-weight: 500;color: #14AFBE;flex: 1;}
+.sub-nav__collapse-btn {background: none;border: none;cursor: pointer;width:18px;height:18px; background: url('/images/leftmenu_close_on.png') no-repeat;
+   display: flex;align-items: center;justify-content: center;}
+
+
+/* Element: sub-nav__search */
+.sub-nav__search {padding: 12px 16px;border-bottom: 1px solid #e0e0e0;}
+.sub-nav__search-input {width: 100%;padding: 8px 12px;border: 1px solid #d0d0d0;border-radius: 4px;font-size: 13px;outline: none;}
+.sub-nav__search-input:focus {border-color: var(--color-primary);}
+
+/* Element: sub-nav__content */
+.sub-nav__content {flex: 1;overflow-y: auto;}
+
+/* Element: sub-nav__section */
+.sub-nav__section {}
+.sub-nav__section-header {width: 100%;padding: 0px 15px;height: 36px;background: none;border: none;display: flex;justify-content: space-between;align-items: center;cursor: pointer;font-size: 13px;color: #555;text-align: left;}
+.sub-nav__section-label {flex: 1;}
+.sub-nav__section-toggle {font-size: 10px;transition: transform 0.2s;display: inline-block;width:18px;height:18px; background: url('/images/leftmenu_arr_off.png') no-repeat right;}
+.sub-nav__section-toggle--open {background: url('/images/leftmenu_arr_on.png') no-repeat right;}
+
+/* Element: sub-nav__list */
+.sub-nav__list {list-style: none;margin: 0;padding: 0;background: rgba(236, 246, 248, 0.80);padding: 15px 12px;}
+
+/* Element: sub-nav__item */
+.sub-nav__item {margin: 0;}
+
+/* Element: sub-nav__link */
+.sub-nav__link {display: flex;align-items: center;justify-content: space-between;padding: 5px 12px;text-decoration: none;color: #777;font-size: 13px;transition: background-color 0.2s;}
+.sub-nav__link--active {background-color: #fff;color: #219AA6;}
+.sub-nav__link-text {flex: 1;}
+
+/* Element: sub-nav__badge */
+.sub-nav__badge {display: inline-flex;align-items: center;justify-content: center;min-width: 20px;height: 20px;padding: 0 6px;background-color: #f44336;color: #fff;font-size: 11px;font-weight: 600;border-radius: 10px;}
+
+/* Element: sub-nav__expand-btn */
+.sub-nav__expand-btn {position: fixed;left: 20px;top: 16px;width: 20px;height: 20px;border:none;cursor: pointer;z-index: 10;background: url('/images/leftmenu_close_off.png') no-repeat center;}
+
+

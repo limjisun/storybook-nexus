@@ -1,0 +1,105 @@
+/* NEXUS Input Component Styles */
+
+.nexus-input {
+  /* Base styles */
+  box-sizing: border-box;
+  font-family: inherit;
+  line-height: 1.5;
+  color: #555;
+  background-color: #fff;
+  border: 1px solid #E3E3E3;
+  border-radius: 2px;
+  padding: 3px 8px;
+  transition: all 0.3s;
+  outline: none;
+}
+/*
+.nexus-input::placeholder {
+  color: #bfbfbf;
+}
+
+.nexus-input:focus {
+  border-color: #40a9ff;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+.nexus-input:hover:not(:disabled):not(:focus) {
+  border-color: #40a9ff;
+}
+
+
+.nexus-input--small {
+  padding: 0px 7px;
+  font-size: 12px;
+  height: 24px;
+}
+
+.nexus-input--medium {
+  padding: 4px 11px;
+  font-size: 14px;
+  height: 32px;
+}
+
+.nexus-input--large {
+  padding: 6px 11px;
+  font-size: 16px;
+  height: 40px;
+}
+  
+.nexus-input--error {
+  border-color: #ff4d4f;
+}
+
+.nexus-input--error:focus {
+  border-color: #ff4d4f;
+  box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.2);
+}
+ */
+/* States */
+.nexus-input--disabled {
+  color: rgba(0, 0, 0, 0.25);
+  background-color: #f5f5f5;
+  border-color: #d9d9d9;
+  cursor: not-allowed;
+}
+
+.nexus-input--readonly {
+  background-color: #f5f5f5;
+  cursor: default;
+}
+
+
+/* Full width */
+.nexus-input--full-width {
+  width: 100%;
+}
+
+/* Search input wrapper */
+.nexus-input-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.nexus-input-wrapper--full-width {
+  width: 100%;
+}
+
+.nexus-input-wrapper .nexus-input--search {
+  padding-right: 30px; /* 아이콘 공간 확보 */
+  width: 100%;
+}
+
+/* Search icon */
+.input_sear {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 12px;
+  height: 12px;
+  background-image: url('/images/input_sear.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  pointer-events: none;
+}

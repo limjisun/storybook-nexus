@@ -1,0 +1,53 @@
+/* Global Styles for Storybook */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-normal);
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 리스트 리셋 */
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+li {
+  margin: 0;
+  padding: 0;
+}
+
+/* 기본 요소 스타일 */
+button {
+  font-family: var(--font-family-base);
+}
+
+input,
+select,
+textarea {
+  font-family: var(--font-family-base);
+}
+
+
+
+/*공통*/
+
+.button-wrap {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+}
+
+

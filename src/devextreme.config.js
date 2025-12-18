@@ -1,0 +1,8 @@
+import config from 'devextreme/core/config';
+
+// DevExtreme License Configuration
+config({
+  licenseKey: 'ewogICJmb3JtYXQiOiAxLAogICJjdXN0b21lcklkIjogIjZhZDYzM2RjLWY1MDItMTFlMy05ODIwLTAwMWVjOTJlOTMyMiIsCiAgIm1heFZlcnNpb25BbGxvd2VkIjogMjUxCn0=.YxKhOcHtPzFX3u4iEDQFI5iVf+hVqHldvj5yFkGP9s1xJ1giS192Zw9wBgb6L7tpnVN2X2qDSMXlgD0655jbZHImU9unyXy3217bdm43hBexcbhdFdmcECjYVtTqqSEoXg4iCQ=='
+});
+
+export default config;

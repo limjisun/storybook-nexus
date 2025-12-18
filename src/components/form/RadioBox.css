@@ -1,0 +1,67 @@
+.radiobox-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.radiobox-input {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 14px;
+  height: 14px;
+  border: 1px solid var(--color-bg-dark-light);
+  border-radius: 50%;
+  cursor: pointer;
+  margin: 0;
+  position: relative;
+  background-color: var(--color-white);
+  transition: all var(--transition-fast);
+}
+
+.radiobox-input:checked {
+  border-color: var( --color-text-555);
+  background-color: #fff;
+}
+
+.radiobox-input:checked::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var( --color-text-555);
+}
+
+.radiobox-input:hover:not(:disabled) {
+  border-color: var(--color-text-555);
+}
+
+.radiobox-input:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  border-color: var(--color-text-555);
+}
+
+.radiobox-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  font-size: var(--font-size-base);
+  color:var(--color-text-tertiary);
+}
+.radiobox-input:checked + .radiobox-label {
+ color: var(--color-text-555);
+}
+.radiobox-input:disabled + .radiobox-label {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.radiobox-label-text {
+  line-height: 1;
+}

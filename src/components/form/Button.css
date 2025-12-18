@@ -1,0 +1,58 @@
+/* Button Base Styles */
+.nexus-button {
+  padding: 4px 6px;
+  border: 1px solid;
+  border-radius: 0px;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  font-family: var(--font-family-base);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  outline: none;
+  white-space: nowrap;
+}
+
+.nexus-button:hover {
+}
+
+.nexus-button:active {
+}
+
+.nexus-button:focus {
+  outline: none;
+}
+
+.nexus-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Button Type: Default (Primary) */
+.nexus-button--default {
+  background-color: var(--color-bg-dark-light);
+  border-color: var(--color-bg-dark-light);
+  color: #fff;
+}
+
+
+.nexus-button--default:disabled {
+  background-color: var(--color-gray-300);
+  border-color: var(--color-gray-300);
+  color: var(--color-text-disabled);
+}
+
+/* Button Type: Normal */
+.nexus-button--normal {
+  background-color: var(--color-white);
+  border-color: var(--color-gray-400);
+  color: var(--color-text-primary);
+}
+
+
+.nexus-button--normal:disabled {
+  background-color: var(--color-gray-100);
+  border-color: var(--color-gray-300);
+  color: var(--color-text-disabled);
+}

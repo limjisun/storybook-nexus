@@ -1,0 +1,71 @@
+/* Block: tab-content */
+.tab-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  transition: all 0.2s ease-out;
+}
+
+.tab-content--active {
+  display: block;
+}
+
+.tab-content--drop-over {
+  background-color: rgba(33, 150, 243, 0.05);
+  border: 2px dashed rgba(33, 150, 243, 0.4);
+}
+
+/* Element: tab-content__inner */
+.tab-content__inner {
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+}
+
+/* Element: tab-content__drop-overlay */
+.tab-content__drop-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+  display: flex;
+}
+
+.tab-content__drop-overlay--single {
+  background-color: rgba(33, 150, 243, 0.1);
+  border: 2px dashed rgba(33, 150, 243, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Element: tab-content__drop-zone */
+.tab-content__drop-zone {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  transition: background-color 0.2s;
+}
+
+.tab-content__drop-zone--left {
+  background-color: rgba(33, 150, 243, 0.1);
+  border-right: 2px dashed rgba(33, 150, 243, 0.6);
+}
+
+.tab-content__drop-zone--right {
+  background-color: rgba(33, 150, 243, 0.2);
+}
+
+/* Element: tab-content__drop-label */
+.tab-content__drop-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(33, 150, 243, 0.8);
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 8px 16px;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}

@@ -1,0 +1,56 @@
+/* Block: tab */
+.tab {display: flex;align-items: center;background-color: #FBFBFB;height: 50px;position: relative;transition: all 0.2s;}
+
+/* Modifier: tab--drag-over */
+.tab--drag-over {background-color: #e3f2fd;border: 2px dashed #219AA6;box-shadow: 0 2px 8px rgba(157, 216, 240, 0.2);}
+
+/* Element: tab__scroll-btn */
+.tab__scroll-btn {display: flex;align-items: center;justify-content: center;width: 26px;height: 50px;border: none;background-color: #FBFBFB;cursor: pointer;font-size: 14px;color: #666;transition: background-color 0.2s, color 0.2s, opacity 0.2s;}
+.tab__scroll-btn:hover:not(:disabled) {background-color: #e0e0e0;}
+.tab__scroll-btn:disabled {color: #ccc;cursor: not-allowed;opacity: 0.5;}
+.tab__scroll-btn--left {background-image: url('/images/tab_left.png'); background-repeat: no-repeat;background-position: center;}
+.tab__scroll-btn--right {background-image: url('/images/tab_right.png');background-repeat: no-repeat;background-position: center;}
+.tab__scroll-btn--scrolling {background-color: #d0d0d0;}
+
+/* Element: tab__remove-section-btn */
+.tab__remove-section-btn {display: flex;align-items: center;justify-content: center;width: 26px;height: 50px;border: none;background-color: #FBFBFB;cursor: pointer;font-size: 20px;color: #999;transition: background-color 0.2s, color 0.2s;}
+.tab__remove-section-btn:hover {background-color: #ffebee;color: #f44336;}
+
+/* Element: tab__split-btn */
+.tab__split-btn {display: flex;color:#777;align-items: center;justify-content: center;width: 26px;height: 50px;border: none;background-color: #FBFBFB;cursor: pointer;font-size: 16px;transition: background-color 0.2s, color 0.2s;}
+
+/* Element: tab__container */
+.tab__container {flex: 1;display: flex;overflow-x: auto;overflow-y: hidden;gap: 0;scrollbar-width: none;}
+.tab__container::-webkit-scrollbar {display: none;}
+
+/* Element: tab__item */
+.tab__item {display: flex;align-items: center;gap: 8px;padding: 0px 5px;height: 50px;min-width: 120px;max-width: 200px;color: #777;background-color: #FBFBFB;cursor: pointer;user-select: none;white-space: nowrap;transition: background-color 0.2s;}
+.tab__item--active {border-bottom: 1px solid #555;font-weight: 500;color: #222;}
+
+.tab__item--drop-over {position: relative;}
+.tab__item--drop-over::after {content: '';position: absolute;inset: 0;border: 1.5px dashed var(--color-primary, #219AA6);pointer-events: none;}
+
+/* Element: tab__favorite */
+.tab__favorite {display: flex;align-items: center;justify-content: center;background-image: url('/images/bookm_off.png');    background-repeat: no-repeat;background-position: center;background-color: transparent;width: 16px;height: 16px;border: none;cursor: pointer;line-height: 1;color: #ccc;padding: 0;transition: color 0.2s;}
+.tab__favorite--active {background-image: url('/images/bookm_on.png');}
+
+/* Element: tab__label */
+.tab__label {flex: 1;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;font-size: 13px;}
+
+/* Element: tab__close */
+.tab__close {display: flex;align-items: center;justify-content: center;width: 18px;height: 18px;border: none;background: none;cursor: pointer;font-size: 18px;line-height: 1;color: #B6B6B6;padding: 0;border-radius: 2px;transition: background-color 0.2s, color 0.2s;}
+.tab__close:hover {color: #666;}
+
+/* Element: tab__menu */
+.tab__menu {position: relative;display: flex;align-items: center;}
+
+/* Element: tab__menu-trigger */
+.tab__menu-trigger {background-color: #FBFBFB;background-image: url('/images/tab_plus.png'); background-repeat: no-repeat;background-position: center;display: flex;align-items: center;justify-content: center;width: 26px;height: 50px;border: none;cursor: pointer;transition: background-color 0.2s;}
+
+/* Element: tab__dropdown */
+.tab__dropdown {position: absolute;top: 100%;right: 0;margin-top: 4px;min-width: 160px;background-color: #fff;border: 1px solid #e0e0e0;border-radius: 4px;box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);z-index: 1000;padding: 4px 0;}
+
+/* Element: tab__dropdown-item */
+.tab__dropdown-item {display: block;width: 100%;padding: 8px 16px;border: none;background: none;text-align: left;font-size: 13px;color: #333;cursor: pointer;transition: background-color 0.2s;}
+.tab__dropdown-item:hover:not(:disabled) {background-color: #f5f5f5;}
+.tab__dropdown-item:disabled {color: #999;cursor: not-allowed;}
