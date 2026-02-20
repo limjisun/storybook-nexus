@@ -146,6 +146,7 @@ export const WithMultipleFields: Story = {
       const [startTime, setStartTime] = useState(new Date(new Date().setHours(0, 0, 0, 0)));
       const [endTime, setEndTime] = useState(new Date(new Date().setHours(23, 59, 59, 999)));
       const [holidaySetting, setHolidaySetting] = useState<'none' | 'exclude' | 'only' | 'customExclude' | 'weekendOnly'>('none');
+      const [useTimeRange, setUseTimeRange] = useState(false);
 
       return (
         <SearchCondition
@@ -168,7 +169,16 @@ export const WithMultipleFields: Story = {
                   }}
                 />
               </SearchCondition.Data>
-              
+              <SearchCondition.Data autoWidth>
+                <CheckBox
+                  label="시간범위"
+                  checked={useTimeRange}
+                  onChange={(checked) => {
+                    console.log('Checkbox changed:', checked);
+                    setUseTimeRange(checked);
+                  }}
+                />
+              </SearchCondition.Data>
             </SearchCondition.Col>
             <SearchCondition.Col label="기간">
               <DateRangePicker
@@ -176,7 +186,7 @@ export const WithMultipleFields: Story = {
                 endDate={endDate}
                 onStartDateChange={setStartDate}
                 onEndDateChange={setEndDate}
-                showTime={true}
+                showTime={useTimeRange}
                 startTime={startTime}
                 endTime={endTime}
                 onStartTimeChange={setStartTime}
