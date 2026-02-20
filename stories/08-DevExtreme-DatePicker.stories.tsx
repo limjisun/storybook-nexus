@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import DateBox, { DateBoxTypes } from 'devextreme-react/date-box';
-import { DateRangePicker } from '../src/components/DateRangePicker';
+import DateRangeBox from 'devextreme-react/date-range-box';
 
 /**
  * DevExtreme DateBox 컴포넌트
@@ -60,14 +60,13 @@ export const BasicDateBox: Story = {
 
     return (
      <div style={{ minWidth: '250px' }}>
-         <div className='date-picker-container'>
+         <div className='date-picker__item'>
           <DateBox
             type="date"
             value={value}
             onValueChanged={(e: DateBoxTypes.ValueChangedEvent) => setValue(e.value)}
             displayFormat="yyyy-MM-dd"
             placeholder="날짜를 선택하세요"
-            width={100}
           />
         </div>
         <div style={{ marginTop: '16px', fontSize: '14px', color: '#666' }}>
@@ -86,7 +85,7 @@ export const WithPrevNextButtons: Story = {
 
     return (
        <div style={{ minWidth: '250px' }}>
-        <div className='date-picker-container' style={{ width: '200px' }}>
+        <div className='date-picker__item'>
           <DateBox
             type="date"
             value={value}
@@ -165,7 +164,7 @@ export const TimeBox: Story = {
 
     return (
       <div style={{ minWidth: '250px' }} >
-        <div className='date-picker-container' style={{ width: '70px' }}>
+        <div className='date-picker__item'>
           <DateBox
             type="time"
             value={value}
@@ -187,7 +186,7 @@ export const Disabled: Story = {
   render: () => {
     return (
       <div style={{ minWidth: '250px' }}>
-        <div className='date-picker-container' style={{ width: '100px' }}>
+        <div className='date-picker__item'>
           <DateBox
             type="date"
             value={new Date()}
@@ -200,60 +199,6 @@ export const Disabled: Story = {
   },
 };
 
-// DateRangePicker 컴포넌트 사용 (날짜 + 시간)
-export const TwoDateBoxesForRange: Story = {
-  render: () => {
-    const today = new Date();
-    const [startDate, setStartDate] = useState<Date>(today);
-    const [endDate, setEndDate] = useState<Date>(
-      new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000) // 7일 후
-    );
-    const [startTime, setStartTime] = useState<Date>(new Date());
-    const [endTime, setEndTime] = useState<Date>(new Date());
-
-    const calculateDays = (): number => {
-      if (!startDate || !endDate) return 0;
-      const diff = endDate.getTime() - startDate.getTime();
-      return Math.ceil(diff / (1000 * 60 * 60 * 24));
-    };
-
-    return (
-      <div style={{ minWidth: '600px' }}>
-       
-        <DateRangePicker
-          startDate={startDate}
-          endDate={endDate}
-          onStartDateChange={setStartDate}
-          onEndDateChange={setEndDate}
-          startTime={startTime}
-          endTime={endTime}
-          onStartTimeChange={setStartTime}
-          onEndTimeChange={setEndTime}
-          showTime={true}
-          showButtons={true}
-          groupClassName="date-range-row"
-        />
-
-        <div style={{
-          marginTop: '16px',
-          padding: '12px',
-          backgroundColor: '#f5f5f5',
-          borderRadius: '4px',
-          fontSize: '14px',
-          color: '#666'
-        }}>
-          <div>시작일: {startDate ? startDate.toLocaleDateString('ko-KR') : '없음'}</div>
-          <div>종료일: {endDate ? endDate.toLocaleDateString('ko-KR') : '없음'}</div>
-          <div>시작 시간: {startTime ? startTime.toLocaleTimeString('ko-KR') : '없음'}</div>
-          <div>종료 시간: {endTime ? endTime.toLocaleTimeString('ko-KR') : '없음'}</div>
-          <div style={{ marginTop: '8px', fontWeight: 'bold', color: '#0066cc' }}>
-            기간: {calculateDays()}일
-          </div>
-        </div>
-      </div>
-    );
-  },
-};
 /*
 export const DateTimeBox: Story = {
   render: () => {
@@ -387,4 +332,53 @@ export const VariousFormats: Story = {
 };
 */
 
+// ============================================
+// DateRangeBox 스토리
+// ============================================
+
+// Today 버튼이 있는 DateRangeBox
+export const DateRangeBoxWithTodayButton: Story = {
+  render: () => {
+    const [value, setValue] = useState<[Date, Date]>([new Date(), new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000)]);
+
+    return (
+      <div>
+        <div className='date-picker__item'>
+          <DateRangeBox
+            startDate={value[0]}
+            endDate={value[1]}
+            onValueChanged={(e: any) => {
+              if (e.value) {
+                setValue(e.value);
+              }
+            }}
+            displayFormat="yyyy-MM-dd"
+            startDatePlaceholder="시작일"
+            endDatePlaceholder="종료일"
+            applyValueMode="useButtons"
+            applyButtonText="저장"
+            cancelButtonText="닫기"
+            dropDownOptions={{
+              wrapperAttr: {
+                class: 'custom-daterange-popup'
+              }
+            }}
+          />
+        </div>
+        <div style={{ marginTop: '16px', fontSize: '14px', color: '#666' }}>
+          <div>시작일: {value[0]?.toLocaleDateString('ko-KR')}</div>
+          <div>종료일: {value[1]?.toLocaleDateString('ko-KR')}</div>
+          <div style={{ marginTop: '8px', fontWeight: 'bold', color: '#0066cc' }}>
+            기간: {Math.ceil((value[1].getTime() - value[0].getTime()) / (1000 * 60 * 60 * 24))}일
+          </div>
+          <div style={{ marginTop: '8px', fontSize: '13px', color: '#999' }}>
+            • 캘린더 하단에 "Today" 버튼이 표시됩니다
+            <br />
+            • "OK" 버튼을 눌러야 날짜가 적용됩니다
+          </div>
+        </div>
+      </div>
+    );
+  },
+};
 

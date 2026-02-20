@@ -33,6 +33,9 @@ export const useSearchCondition = (
   const [endDate, setEndDate] = useState<Date>(initialValues?.endDate || weekLater);
   const [startTime, setStartTime] = useState<Date>(initialValues?.startTime || new Date());
   const [endTime, setEndTime] = useState<Date>(initialValues?.endTime || new Date());
+  const [holidaySetting, setHolidaySetting] = useState<'none' | 'exclude' | 'only' | 'customExclude' | 'weekendOnly'>(
+    initialValues?.holidaySetting || 'none'
+  );
 
   const [selectedCenters, setSelectedCenters] = useState<number[]>(initialValues?.selectedCenters || []);
   const [selectedTenants, setSelectedTenants] = useState<string[]>(initialValues?.selectedTenants || []);
@@ -148,6 +151,7 @@ export const useSearchCondition = (
       endDate,
       startTime,
       endTime,
+      holidaySetting,
       selectedCenters,
       selectedTenants,
       selectedGroups,
@@ -164,6 +168,7 @@ export const useSearchCondition = (
     setEndDate,
     setStartTime,
     setEndTime,
+    setHolidaySetting,
     setSelectedChannels,
 
     // Hierarchical handlers

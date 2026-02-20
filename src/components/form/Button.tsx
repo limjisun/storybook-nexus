@@ -5,7 +5,7 @@ interface ButtonProps {
   /** 버튼에 표시될 텍스트 */
   text: string;
   /** 버튼 타입 (기본값: 'default') */
-  type?: 'default' | 'normal';
+  type?: 'default' | 'normal' | 'outlined';
   /** 클릭 이벤트 핸들러 */
   onClick?: () => void;
   /** 버튼 비활성화 여부 (기본값: false) */

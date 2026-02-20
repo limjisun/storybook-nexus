@@ -92,6 +92,7 @@ export interface SearchFormValues {
   endDate: Date;
   startTime: Date;
   endTime: Date;
+  holidaySetting?: 'none' | 'exclude' | 'only' | 'customExclude' | 'weekendOnly';
 
   // 조직 선택
   selectedCenters: number[];
@@ -141,15 +142,31 @@ export interface ButtonConfig {
 // ========================================
 // SearchCondition Props
 // ========================================
+// DrillDown 관련 타입 import
+export interface DrillDownItem {
+  id: string;
+  text: string;
+  items?: DrillDownItem[];
+}
+
 export interface SearchConditionProps {
   /** 조직 데이터 */
   organizationData?: OrganizationData;
 
-  /** 팀 옵션 */
-  teamOptions?: SelectOption[];
+  /** 필터 계층형 데이터 (DrillDown 사용) */
+  filterData?: DrillDownItem[];
 
-  /** 정렬 옵션 */
-  sortOptions?: SelectOption[];
+  /** 필터 컬럼 헤더 라벨 */
+  filterLevelLabels?: string[];
+
+  /** 필터 선택 변경 핸들러 */
+  onFilterChange?: (selectedIds: string[]) => void;
+
+  /** 필터 라벨 (기본값: "필터") */
+  filterLabel?: string;
+
+  /** 필터 선택 모드 (기본값: "single") */
+  filterMode?: 'single' | 'multi';
 
   /** 표시할 필드 제어 */
   showFields?: FieldsConfig;
@@ -198,6 +215,7 @@ export interface UseSearchConditionReturn {
   setEndDate: (date: Date) => void;
   setStartTime: (time: Date) => void;
   setEndTime: (time: Date) => void;
+  setHolidaySetting: (value: 'none' | 'exclude' | 'only' | 'customExclude' | 'weekendOnly') => void;
   setSelectedChannels: (channels: number[]) => void;
 
   // 계층형 선택 핸들러 (캐스케이딩 리셋 포함)

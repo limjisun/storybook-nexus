@@ -1,23 +1,7 @@
 import React, { useState } from 'react';
 import Button from '../form/Button';
-import { useSearchCondition } from './useSearchCondition';
-import { BasicFields } from './fields/BasicFields';
-import { DateRangeField } from './fields/DateRangeField';
-import { OrganizationFields } from './fields/OrganizationFields';
-import type { SearchConditionProps, SelectOption } from './types';
+import type { SearchConditionProps } from './types';
 import './SearchCondition.css';
-
-// 기본 옵션 데이터
-const DEFAULT_TEAM_OPTIONS: SelectOption[] = [
-  { value: 'inbound', label: '인바운드' },
-  { value: 'outbound', label: '아웃바운드' },
-  { value: 'support', label: '지원팀' },
-];
-
-const DEFAULT_SORT_OPTIONS: SelectOption[] = [
-  { value: 'asc', label: '오름차순' },
-  { value: 'desc', label: '내림차순' },
-];
 
 // ========================================
 // 서브 컴포넌트들
@@ -133,17 +117,6 @@ export const SearchCondition: React.FC<SearchConditionProps> & {
   Col: typeof Col;
   Data: typeof Data;
 } = ({
-  organizationData,
-  teamOptions = DEFAULT_TEAM_OPTIONS,
-  sortOptions = DEFAULT_SORT_OPTIONS,
-  showFields = {
-    basicFilters: true,
-    dateRange: true,
-    organization: true,
-  },
-  organizationFields,
-  showTimeRangeCheckbox = true,
-  initialValues,
   onSubmit,
   onCancel,
   submitText = '확인',
@@ -158,36 +131,11 @@ export const SearchCondition: React.FC<SearchConditionProps> & {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   // ========================================
-  // Hook 사용
-  // ========================================
-  const {
-    values,
-    setSelectedTeam,
-    setSortOrder,
-    setAgreed,
-    setStartDate,
-    setEndDate,
-    setStartTime,
-    setEndTime,
-    setSelectedChannels,
-    handleCenterChange,
-    handleTenantChange,
-    handleGroupChange,
-    handleTeamChange,
-    handleAgentChange,
-    filteredTenants,
-    filteredGroups,
-    filteredTeams,
-    filteredAgents,
-    filteredChannels,
-  } = useSearchCondition(organizationData, initialValues);
-
-  // ========================================
   // 버튼 핸들러
   // ========================================
   const handleSubmit = () => {
     if (onSubmit) {
-      onSubmit(values);
+      onSubmit();
     }
   };
 
@@ -233,76 +181,13 @@ export const SearchCondition: React.FC<SearchConditionProps> & {
           onClick={() => setIsCollapsed(!isCollapsed)}
           title={isCollapsed ? '펼치기' : '접기'}
         />
-        <h2>{title}</h2>
+        <h2  onClick={() => setIsCollapsed(!isCollapsed)}>{title}</h2>
         <div className='button-wrap'>
           {renderButtons()}
         </div>
       </div>
       <div className={`search-panel__body ${isCollapsed ? 'search-panel__body--collapsed' : ''}`}>
-        {/* Props 기반 필드 렌더링 */}
-        {(showFields.basicFilters || showFields.dateRange) && (
-          <Row twoColumns>
-            {showFields.basicFilters && (
-              <Col label="종류">
-                <BasicFields
-                  selectedTeam={values.selectedTeam}
-                  onTeamChange={setSelectedTeam}
-                  teamOptions={teamOptions}
-                  sortOrder={values.sortOrder}
-                  onSortOrderChange={setSortOrder}
-                  sortOptions={sortOptions}
-                  agreed={values.agreed}
-                  onAgreedChange={setAgreed}
-                  showTimeRange={showTimeRangeCheckbox}
-                />
-              </Col>
-            )}
-            {showFields.dateRange && (
-              <Col label="기간">
-                <DateRangeField
-                  startDate={values.startDate}
-                  endDate={values.endDate}
-                  onStartDateChange={setStartDate}
-                  onEndDateChange={setEndDate}
-                  startTime={values.startTime}
-                  endTime={values.endTime}
-                  onStartTimeChange={setStartTime}
-                  onEndTimeChange={setEndTime}
-                />
-              </Col>
-            )}
-          </Row>
-        )}
-
-        {showFields.organization && organizationData && (
-          <Row>
-            <Col label="조직">
-              <OrganizationFields
-                centers={organizationData.centers}
-                tenants={filteredTenants}
-                groups={filteredGroups}
-                teams={filteredTeams}
-                agents={filteredAgents}
-                channels={filteredChannels}
-                selectedCenters={values.selectedCenters}
-                selectedTenants={values.selectedTenants}
-                selectedGroups={values.selectedGroups}
-                selectedTeams={values.selectedTeams}
-                selectedAgents={values.selectedAgents}
-                selectedChannels={values.selectedChannels}
-                onCenterChange={handleCenterChange}
-                onTenantChange={handleTenantChange}
-                onGroupChange={handleGroupChange}
-                onTeamChange={handleTeamChange}
-                onAgentChange={handleAgentChange}
-                onChannelChange={setSelectedChannels}
-                showFields={organizationFields}
-              />
-            </Col>
-          </Row>
-        )}
-
-        {/* Children 렌더링 */}
+        {/* Children 렌더링 - 사용자가 자유롭게 구성 */}
         {children}
       </div>
     </div>

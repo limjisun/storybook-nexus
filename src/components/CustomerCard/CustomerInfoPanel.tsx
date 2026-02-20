@@ -74,14 +74,14 @@ export const CustomerInfoPanel: React.FC<CustomerInfoPanelProps> = ({
   };
 
   return (
-    <div className="customer_info" onDoubleClick={handleDoubleClick}>
+    <div className="customer-card__info" onDoubleClick={handleDoubleClick}>
       <ul>
         {isNewCustomer || isEditing ? (
           <>
             {/* 편집 모드 */}
-            <li className="info_line">
-              <div className="info_label">고객명</div>
-              <div className="info_value">
+            <li className="customer-card__info-line">
+              <div className="customer-card__info-label">고객명</div>
+              <div className="customer-card__info-value">
                 <Input
                   type="text"
                   placeholder="이름 입력"
@@ -91,13 +91,13 @@ export const CustomerInfoPanel: React.FC<CustomerInfoPanelProps> = ({
                 />
               </div>
             </li>
-            <li className="info_line">
-              <div className="info_label">고객 ID</div>
-              <div className="info_value">{customerId}</div>
+            <li className="customer-card__info-line">
+              <div className="customer-card__info-label">고객 ID</div>
+              <div className="customer-card__info-value">{customerId}</div>
             </li>
-            <li className="info_line">
-              <div className="info_label">전화번호</div>
-              <div className="info_value">
+            <li className="customer-card__info-line">
+              <div className="customer-card__info-label">전화번호</div>
+              <div className="customer-card__info-value">
                 <Input
                   type="tel"
                   placeholder="전화번호 입력"
@@ -107,9 +107,9 @@ export const CustomerInfoPanel: React.FC<CustomerInfoPanelProps> = ({
                 />
               </div>
             </li>
-            <li className="info_line">
-              <div className="info_label">휴대폰</div>
-              <div className="info_value">
+            <li className="customer-card__info-line">
+              <div className="customer-card__info-label">휴대폰</div>
+              <div className="customer-card__info-value">
                 <Input
                   type="tel"
                   placeholder="휴대폰 입력"
@@ -119,9 +119,9 @@ export const CustomerInfoPanel: React.FC<CustomerInfoPanelProps> = ({
                 />
               </div>
             </li>
-            <li className="info_line">
-              <div className="info_label">이메일</div>
-              <div className="info_value">
+            <li className="customer-card__info-line">
+              <div className="customer-card__info-label">이메일</div>
+              <div className="customer-card__info-value">
                 <Input
                   type="email"
                   placeholder="이메일 입력"
@@ -131,9 +131,9 @@ export const CustomerInfoPanel: React.FC<CustomerInfoPanelProps> = ({
                 />
               </div>
             </li>
-            <li className="info_line">
-              <div className="info_label">주소</div>
-              <div className="info_value info_value--address">
+            <li className="customer-card__info-line">
+              <div className="customer-card__info-label">주소</div>
+              <div className="customer-card__info-value customer-card__info-value--address">
                 <Button text="우편번호" type="default" />
                 <Input
                   type="text"
@@ -144,9 +144,9 @@ export const CustomerInfoPanel: React.FC<CustomerInfoPanelProps> = ({
                 />
               </div>
             </li>
-            <li className="info_line">
-              <div className="info_label">마케팅 동의</div>
-              <div className="info_value">
+            <li className="customer-card__info-line">
+              <div className="customer-card__info-label">마케팅 동의</div>
+              <div className="customer-card__info-value">
                 <Select
                   options={[
                     { value: 'Y', label: 'Y' },
@@ -159,9 +159,9 @@ export const CustomerInfoPanel: React.FC<CustomerInfoPanelProps> = ({
                 />
               </div>
             </li>
-            <li className="info_line">
-              <div className="info_label">VIP여부</div>
-              <div className="info_value">
+            <li className="customer-card__info-line">
+              <div className="customer-card__info-label">VIP여부</div>
+              <div className="customer-card__info-value">
                 <Select
                   options={[
                     { value: 'Y', label: 'Y' },
@@ -176,9 +176,9 @@ export const CustomerInfoPanel: React.FC<CustomerInfoPanelProps> = ({
             </li>
             {!isNewCustomer && (
               <>
-                <li className="info_line">
-                  <div className="info_label">추천인</div>
-                  <div className="info_value">
+                <li className="customer-card__info-line">
+                  <div className="customer-card__info-label">추천인</div>
+                  <div className="customer-card__info-value">
                     <Input
                       type="text"
                       placeholder="추천인 입력"
@@ -188,9 +188,9 @@ export const CustomerInfoPanel: React.FC<CustomerInfoPanelProps> = ({
                     />
                   </div>
                 </li>
-                <li className="info_line">
-                  <div className="info_label">예약일시</div>
-                  <div className="info_value">
+                <li className="customer-card__info-line">
+                  <div className="customer-card__info-label">예약일시</div>
+                  <div className="customer-card__info-value">
                     <Input
                       type="text"
                       placeholder="예약일시 입력"
@@ -200,9 +200,9 @@ export const CustomerInfoPanel: React.FC<CustomerInfoPanelProps> = ({
                     />
                   </div>
                 </li>
-                <li className="info_line">
-                  <div className="info_label">재방문의사</div>
-                  <div className="info_value">
+                <li className="customer-card__info-line">
+                  <div className="customer-card__info-label">재방문의사</div>
+                  <div className="customer-card__info-value">
                     <Select
                       options={[
                         { value: 'Y', label: 'Y' },
@@ -218,8 +218,8 @@ export const CustomerInfoPanel: React.FC<CustomerInfoPanelProps> = ({
               </>
             )}
             {showAdditionalField && (
-              <li className="info_line plus_info">
-                <div className="info_label">
+              <li className="customer-card__info-line customer-card__plus-info">
+                <div className="customer-card__info-label">
                   <Select
                     options={[
                       { value: '', label: '선택' },
@@ -229,14 +229,14 @@ export const CustomerInfoPanel: React.FC<CustomerInfoPanelProps> = ({
                     placeholder="선택"
                   />
                 </div>
-                <div className="info_value">
+                <div className="customer-card__info-value">
                   <Input type="text" fullWidth />
                 </div>
               </li>
             )}
             {/* 편집 모드 버튼 */}
             {!isNewCustomer && (
-              <li className="btn_plus_wrap button-wrap">
+              <li className="customer-card__btn-plus-wrap button-wrap">
                 <Button text="초기화" type="default" onClick={handleReset} />
                 <Button text="저장" type="default" onClick={handleSave} />
                 <Button text="정보추가" type="default" onClick={handleAddField} />
@@ -246,70 +246,70 @@ export const CustomerInfoPanel: React.FC<CustomerInfoPanelProps> = ({
         ) : (
           <>
             {/* 읽기 모드 */}
-            <li className="info_line">
-              <div className="info_label">고객명</div>
-              <div className="info_value">{name}</div>
+            <li className="customer-card__info-line">
+              <div className="customer-card__info-label">고객명</div>
+              <div className="customer-card__info-value">{name}</div>
             </li>
-            <li className="info_line">
-              <div className="info_label">고객 ID</div>
-              <div className="info_value">{customerId}</div>
+            <li className="customer-card__info-line">
+              <div className="customer-card__info-label">고객 ID</div>
+              <div className="customer-card__info-value">{customerId}</div>
             </li>
             {customerInfo?.phone && (
-              <li className="info_line">
-                <div className="info_label">전화번호</div>
-                <div className="info_value">
+              <li className="customer-card__info-line">
+                <div className="customer-card__info-label">전화번호</div>
+                <div className="customer-card__info-value">
                   {customerInfo.phone}
                 </div>
               </li>
             )}
             {customerInfo?.mobile && (
-              <li className="info_line">
-                <div className="info_label">휴대폰</div>
-                <div className="info_value">
+              <li className="customer-card__info-line">
+                <div className="customer-card__info-label">휴대폰</div>
+                <div className="customer-card__info-value">
                   {customerInfo.mobile}
                 </div>
               </li>
             )}
             {customerInfo?.email && (
-              <li className="info_line">
-                <div className="info_label">이메일</div>
-                <div className="info_value">{customerInfo.email}</div>
+              <li className="customer-card__info-line">
+                <div className="customer-card__info-label">이메일</div>
+                <div className="customer-card__info-value">{customerInfo.email}</div>
               </li>
             )}
             {customerInfo?.address && (
-              <li className="info_line">
-                <div className="info_label">주소</div>
-                <div className="info_value">{customerInfo.address}</div>
+              <li className="customer-card__info-line">
+                <div className="customer-card__info-label">주소</div>
+                <div className="customer-card__info-value">{customerInfo.address}</div>
               </li>
             )}
             {customerInfo?.marketingConsent && (
-              <li className="info_line">
-                <div className="info_label">마케팅 동의</div>
-                <div className="info_value">{customerInfo.marketingConsent}</div>
+              <li className="customer-card__info-line">
+                <div className="customer-card__info-label">마케팅 동의</div>
+                <div className="customer-card__info-value">{customerInfo.marketingConsent}</div>
               </li>
             )}
             {customerInfo?.vipStatus && (
-              <li className="info_line">
-                <div className="info_label">VIP여부</div>
-                <div className="info_value">{customerInfo.vipStatus}</div>
+              <li className="customer-card__info-line">
+                <div className="customer-card__info-label">VIP여부</div>
+                <div className="customer-card__info-value">{customerInfo.vipStatus}</div>
               </li>
             )}
             {customerInfo?.referrer && (
-              <li className="info_line">
-                <div className="info_label">추천인</div>
-                <div className="info_value">{customerInfo.referrer}</div>
+              <li className="customer-card__info-line">
+                <div className="customer-card__info-label">추천인</div>
+                <div className="customer-card__info-value">{customerInfo.referrer}</div>
               </li>
             )}
             {customerInfo?.reservationDate && (
-              <li className="info_line">
-                <div className="info_label">예약일시</div>
-                <div className="info_value">{customerInfo.reservationDate}</div>
+              <li className="customer-card__info-line">
+                <div className="customer-card__info-label">예약일시</div>
+                <div className="customer-card__info-value">{customerInfo.reservationDate}</div>
               </li>
             )}
             {customerInfo?.revisitIntent && (
-              <li className="info_line">
-                <div className="info_label">재방문의사</div>
-                <div className="info_value">{customerInfo.revisitIntent}</div>
+              <li className="customer-card__info-line">
+                <div className="customer-card__info-label">재방문의사</div>
+                <div className="customer-card__info-value">{customerInfo.revisitIntent}</div>
               </li>
             )}
           </>

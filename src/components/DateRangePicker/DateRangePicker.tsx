@@ -1,6 +1,25 @@
 import React from 'react';
 import DateBox, { DateBoxTypes } from 'devextreme-react/date-box';
+import DateRangeBox from 'devextreme-react/date-range-box';
+import SelectBox, { SelectBoxTypes } from 'devextreme-react/select-box';
 import './DateRangePicker.css';
+
+/** 휴일 설정 옵션 타입 */
+export type HolidaySettingType =
+  | 'none'
+  | 'exclude'
+  | 'only'
+  | 'customExclude'
+  | 'weekendOnly';
+
+/** 휴일 설정 옵션 */
+export const HOLIDAY_SETTINGS: Array<{ value: HolidaySettingType; label: string }> = [
+  { value: 'none', label: '휴일설정 없음' },
+  { value: 'exclude', label: '휴일 제외' },
+  { value: 'only', label: '휴일만 포함' },
+  { value: 'customExclude', label: '사용자지정 휴일제외' },
+  { value: 'weekendOnly', label: '토/일만 제외' },
+];
 
 export interface DateRangePickerProps {
   /** 시작 날짜 */
@@ -21,8 +40,6 @@ export interface DateRangePickerProps {
   onEndTimeChange?: (time: Date) => void;
   /** 시간 선택 표시 여부 */
   showTime?: boolean;
-  /** Today, Prev, Next 버튼 표시 여부 */
-  showButtons?: boolean;
   /** 날짜 표시 형식 */
   dateFormat?: string;
   /** 시간 표시 형식 */
@@ -41,6 +58,14 @@ export interface DateRangePickerProps {
   groupClassName?: string;
   /** 개별 아이템 클래스명 */
   itemClassName?: string;
+  /** 휴일 설정 값 */
+  holidaySetting?: HolidaySettingType;
+  /** 휴일 설정 변경 핸들러 */
+  onHolidaySettingChange?: (value: HolidaySettingType) => void;
+  /** 휴일 설정 표시 여부 */
+  showHolidaySetting?: boolean;
+  /** 비활성화 여부 */
+  disabled?: boolean;
 }
 
 /**
@@ -59,7 +84,6 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
   onStartTimeChange,
   onEndTimeChange,
   showTime = false,
-  showButtons = true,
   dateFormat = 'yyyy-MM-dd',
   timeFormat = 'HH:mm',
   startDatePlaceholder = '시작 날짜',
@@ -69,96 +93,33 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
   wrapperClassName = 'date-picker-wrap',
   groupClassName = 'date-picker__group',
   itemClassName = 'date-picker__item',
+  holidaySetting = 'none',
+  onHolidaySettingChange,
+  showHolidaySetting = false,
+  disabled = false,
 }) => {
-  const millisecondsInDay = 24 * 60 * 60 * 1000;
-
-  const getDateButtons = (
-    currentDate: Date,
-    onDateChange: (date: Date) => void
-  ) => {
-    if (!showButtons) return ['dropDown'];
-
-    return [
-      {
-        name: 'today',
-        location: 'before' as const,
-        options: {
-          text: 'Today',
-          stylingMode: 'text' as const,
-          elementAttr: {
-            class: 'today-button',
-          },
-          onClick: () => {
-            onDateChange(new Date());
-          },
-        },
-      },
-      {
-        name: 'prevDate',
-        location: 'before' as const,
-        options: {
-          icon: 'spinprev',
-          stylingMode: 'text' as const,
-          elementAttr: {
-            class: 'direc-button',
-          },
-          onClick: () => {
-            onDateChange(new Date(currentDate.getTime() - millisecondsInDay));
-          },
-        },
-      },
-      {
-        name: 'nextDate',
-        location: 'after' as const,
-        options: {
-          icon: 'spinnext',
-          stylingMode: 'text' as const,
-          elementAttr: {
-            class: 'direc-button',
-          },
-          onClick: () => {
-            onDateChange(new Date(currentDate.getTime() + millisecondsInDay));
-          },
-        },
-      },
-      'dropDown',
-    ];
-  };
 
   return (
     <div className={wrapperClassName}>
-      {/* 날짜 행 */}
+      {/* 날짜 범위 */}
       <div className={groupClassName}>
-        {/* 시작 날짜 */}
         <div className={itemClassName}>
-          <DateBox
-            type="date"
-            value={startDate}
-            onValueChanged={(e: DateBoxTypes.ValueChangedEvent) => {
-              onStartDateChange(e.value);
-              // 시작일이 종료일보다 늦으면 종료일 자동 조정
-              if (endDate && e.value > endDate) {
-                onEndDateChange(new Date(e.value.getTime() + millisecondsInDay));
+          <DateRangeBox
+            startDate={startDate}
+            endDate={endDate}
+            onValueChanged={(e: any) => {
+              if (e.value) {
+                onStartDateChange(e.value[0]);
+                onEndDateChange(e.value[1]);
               }
             }}
             displayFormat={dateFormat}
-            placeholder={startDatePlaceholder}
-            useMaskBehavior={true}
-            buttons={getDateButtons(startDate, onStartDateChange)}
-          />
-        </div>
-
-        {/* 종료 날짜 */}
-        <div className={itemClassName}>
-          <DateBox
-            type="date"
-            value={endDate}
-            onValueChanged={(e: DateBoxTypes.ValueChangedEvent) => onEndDateChange(e.value)}
-            min={startDate ? new Date(startDate.getTime() + millisecondsInDay) : undefined}
-            displayFormat={dateFormat}
-            placeholder={endDatePlaceholder}
-            useMaskBehavior={true}
-            buttons={getDateButtons(endDate, onEndDateChange)}
+            startDatePlaceholder={startDatePlaceholder}
+            endDatePlaceholder={endDatePlaceholder}
+            applyValueMode="useButtons"
+            applyButtonText="저장"
+            cancelButtonText="닫기"
+            disabled={disabled}
           />
         </div>
       </div>
@@ -167,7 +128,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
       {showTime && startTime && endTime && onStartTimeChange && onEndTimeChange && (
         <div className={groupClassName}>
           {/* 시작 시간 */}
-          <div className={itemClassName}>
+          <div className={`${itemClassName} date-picker__time-item`}>
             <DateBox
               type="time"
               value={startTime}
@@ -178,13 +139,31 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
           </div>
 
           {/* 종료 시간 */}
-          <div className={itemClassName}>
+          <div className={`${itemClassName} date-picker__time-item`}>
             <DateBox
               type="time"
               value={endTime}
               onValueChanged={(e: DateBoxTypes.ValueChangedEvent) => onEndTimeChange(e.value)}
               displayFormat={timeFormat}
               placeholder={endTimePlaceholder}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* 휴일 설정 (옵션) */}
+      {showHolidaySetting && onHolidaySettingChange && (
+        <div className={groupClassName}>
+          <div className={`${itemClassName} ${itemClassName}--holiday-setting`}>
+            <SelectBox
+              items={HOLIDAY_SETTINGS}
+              value={holidaySetting}
+              valueExpr="value"
+              displayExpr="label"
+              onValueChanged={(e: SelectBoxTypes.ValueChangedEvent) =>
+                onHolidaySettingChange(e.value as HolidaySettingType)
+              }
+              placeholder="휴일설정 선택"
             />
           </div>
         </div>

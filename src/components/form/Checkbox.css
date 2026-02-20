@@ -1,44 +1,10 @@
-.checkbox-wrapper {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.checkbox-input {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  width: 14px;
-  height: 14px;
-  cursor: pointer;
-  background-image: url('/images/check_off.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  margin: 0;
-  flex-shrink: 0;
-}
-
-.checkbox-input:checked {
-  background-image: url('/images/check_on.png');
-}
-
-.checkbox-input:disabled {
-  cursor: not-allowed;
-  opacity: 0.5;
-}
-
-.checkbox-label {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  user-select: none;
-}
-
-.checkbox-input:disabled + .checkbox-label {
-  cursor: not-allowed;
-  opacity: 0.5;
-}
-
-.checkbox-label-text {
-}
+.checkbox {align-items: center; display: inline-flex;}
+.checkbox__input {-moz-appearance: none; -webkit-appearance: none; appearance: none; background-image: url('/images/check_off.png'); background-position: center; background-repeat: no-repeat; background-size: contain; cursor: pointer; flex-shrink: 0; height: 14px; margin: 0; width: 14px;}
+.checkbox__input:checked {background-image: url('/images/check_on.png');}
+.checkbox__input:indeterminate {background-image: url('/images/check_indeterminate.png');}
+.checkbox__input:indeterminate:not([style]) {background-image: none; background-color: #555; position: relative;}
+.checkbox__input:indeterminate::after {background-color: #fff; content: ''; height: 2px; left: 50%; position: absolute; top: 50%; transform: translate(-50%, -50%); width: 8px;}
+.checkbox__input:disabled {cursor: not-allowed; opacity: 0.5;}
+.checkbox__label {align-items: center; cursor: pointer; display: flex; gap: 6px; user-select: none;}
+.checkbox__label:has(.checkbox__input:disabled) {cursor: not-allowed; opacity: 0.5;}
+.checkbox__label-text {}

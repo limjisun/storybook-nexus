@@ -27,9 +27,7 @@ export type {
 
 // 필드 컴포넌트 export (필요시 개별 사용 가능)
 export { BasicFields } from './fields/BasicFields';
-export { DateRangeField } from './fields/DateRangeField';
 export { OrganizationFields } from './fields/OrganizationFields';
 
 export type { BasicFieldsProps } from './fields/BasicFields';
-export type { DateRangeFieldProps } from './fields/DateRangeField';
 export type { OrganizationFieldsProps } from './fields/OrganizationFields';

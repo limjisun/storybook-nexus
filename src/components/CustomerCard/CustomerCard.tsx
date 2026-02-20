@@ -76,12 +76,12 @@ export const CustomerCard: React.FC<CustomerCardProps> = ({
 
   const getChannelIcon = () => {
     const iconMap = {
-      chat: 'icon_chat',
-      incall: 'icon_incall',
-      outcall: 'icon_outcall',
-      inmail: 'icon_inmail',
-      outmail: 'icon_outmail',
-      noncall: 'icon_noncall',
+      chat: 'customer-card__icon--chat',
+      incall: 'customer-card__icon--incall',
+      outcall: 'customer-card__icon--outcall',
+      inmail: 'customer-card__icon--inmail',
+      outmail: 'customer-card__icon--outmail',
+      noncall: 'customer-card__icon--noncall',
     };
     return iconMap[channelType];
   };
@@ -89,26 +89,26 @@ export const CustomerCard: React.FC<CustomerCardProps> = ({
 
 
   return (
-    <div className={`ct-moule ${isRealTime ? 'real-time' : ''} ${isSelected ? 'on' : ''}`}>
-      <div className="customer_summary" onClick={handleClick}>
-        <div className="customer_left">
-          <div className={`customer_icon ${getChannelIcon()}`}>
+    <div className={`customer-card ${isRealTime ? 'customer-card--real-time' : ''} ${isSelected ? 'customer-card--active' : ''}`}>
+      <div className="customer-card__summary" onClick={handleClick}>
+        <div className="customer-card__left">
+          <div className={`customer-card__icon ${getChannelIcon()}`}>
             {unreadCount && unreadCount > 0 && (
-              <span className="chat_num">{unreadCount}</span>
+              <span className="customer-card__chat-badge">{unreadCount}</span>
             )}
           </div>
-          <div className="customer_profile">
-            <div className="customer_name">
+          <div className="customer-card__profile">
+            <div className="customer-card__name">
                {name}
               {channelType === 'chat' && chatChannel && (
-                <span className={`customer_channel channel_${chatChannel}`}></span>
+                <span className={`customer-card__channel customer-card__channel--${chatChannel}`}></span>
               )}
             </div>
-            <div className="customer_talk">{lastMessage}</div>
+            <div className="customer-card__talk">{lastMessage}</div>
           </div>
         </div>
-        <div className="customer_state">
-          <span className="customer_time">{displayTime}</span>
+        <div className="customer-card__state">
+          <span className="customer-card__time">{displayTime}</span>
         </div>
       </div>
 

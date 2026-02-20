@@ -14,3 +14,8 @@
 .sbdocs-preview {
   width: 100% !important;
 }
+
+/* Storybook Root 패딩 */
+#storybook-root {
+  padding: 10px;
+}

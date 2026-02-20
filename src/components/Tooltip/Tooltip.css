@@ -1,0 +1,30 @@
+.nexus-tooltip-trigger {align-items: center;gap: 4px;cursor: help;}
+.tooltip-icon {display: inline-block; width: 15px; height: 15px; background-image: url('../../assets/admin_icon_info.png'); background-size: contain; background-repeat: no-repeat; background-position: center; vertical-align: middle; opacity: 1; transition: opacity 0.2s; cursor: help;}
+.tooltip-icon:hover {opacity: 0.8;}
+.nexus-tooltip {position: absolute; z-index: 9999; background-color: #222; color: white; padding: 6px; border-radius: 4px; font-size: 12px; line-height: 1.4; white-space: nowrap; pointer-events: none; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);}
+
+/* 테이블 형태 툴팁 (DrillDownTagTooltip 등에서 사용) */
+.drilldown-trigger__tooltip.nexus-tooltip{padding: 12px;}
+.nexus-tooltip--table {background-color: #ffffff; color: #333333; padding: 0; white-space: normal; pointer-events: auto; border: 1px solid #dddddd; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);}
+.nexus-tooltip--table::after {display: none;}
+.nexus-tooltip--table table {border-collapse: collapse; font-size: 11px; min-width: 200px;}
+.nexus-tooltip--table th {background-color: #f9f9f9; border-bottom: 1px solid #ebebeb; color: #888888; font-weight: 600; padding: 5px 10px; text-align: left; white-space: nowrap;}
+.nexus-tooltip--table td {border-bottom: 1px solid #f5f5f5; color: #333333; padding: 4px 10px; white-space: nowrap;}
+.nexus-tooltip--table tr:last-child td {border-bottom: none;}
+.nexus-tooltip--table tr:hover td {background-color: #F4F6F9;}
+
+/* Top placement */
+.nexus-tooltip-top {transform: translate(-50%, -100%);}
+.nexus-tooltip-top::after {content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border: 6px solid transparent; border-top-color: #222;}
+
+/* Bottom placement */
+.nexus-tooltip-bottom {transform: translate(-50%, 0);}
+.nexus-tooltip-bottom::after {content: ''; position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); border: 6px solid transparent; border-bottom-color: #222;}
+
+/* Left placement */
+.nexus-tooltip-left {transform: translate(-100%, -50%); margin-left: -12px;}
+.nexus-tooltip-left::after {content: ''; position: absolute; left: 100%; top: 50%; transform: translateY(-50%); border: 6px solid transparent; border-left-color: #222;}
+
+/* Right placement */
+.nexus-tooltip-right {transform: translate(0, -50%); margin-left: -10px;}
+.nexus-tooltip-right::after {content: ''; position: absolute; right: 100%; top: 50%; transform: translateY(-50%); border: 6px solid transparent; border-right-color: #222;}

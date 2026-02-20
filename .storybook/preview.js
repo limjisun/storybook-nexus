@@ -1,9 +1,15 @@
+import React from 'react';
 import '../src/devextreme.config.js';
 import '../src/styles/variables.css';
 import '../src/styles/global.css';
 import '../src/styles/layout.css';
 import '../src/styles/devextreme-custom.css';
 import './storybook-custom.css';
+
+// React를 전역에 등록 (classic JSX runtime 환경 대응)
+if (typeof window !== 'undefined') {
+  window.React = React;
+}
 
 /** @type { import('@storybook/react-vite').Preview } */
 const preview = {

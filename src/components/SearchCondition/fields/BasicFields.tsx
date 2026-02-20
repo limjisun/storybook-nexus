@@ -1,5 +1,6 @@
 import React from 'react';
-import SelectBox from 'devextreme-react/select-box';
+import DrillDown from '../../form/DrillDown';
+import type { DrillDownItem, SelectedTag } from '../../form/DrillDown';
 import Checkbox from '../../form/Checkbox';
 import type { SelectOption } from '../types';
 
@@ -29,11 +30,26 @@ export interface BasicFieldsProps {
   checkboxId?: string;
 }
 
+// SelectOption을 계층형 DrillDownItem으로 변환하는 헬퍼 함수
+const convertToHierarchicalDrillDown = (
+  teamOptions: SelectOption[],
+  sortOptions: SelectOption[]
+): DrillDownItem[] => {
+  return teamOptions.map(team => ({
+    id: team.value,
+    text: team.label,
+    items: sortOptions.map(sort => ({
+      id: `${team.value}_${sort.value}`,
+      text: sort.label,
+    })),
+  }));
+};
+
 /**
  * BasicFields 컴포넌트
  *
- * 기본 필터 필드들 (종류, 정렬, 시간범위)
- * DevExtreme SelectBox 사용
+ * 기본 필터 필드들 (종류 > 정렬, 시간범위)
+ * 계층형 DrillDown 컴포넌트 사용 (single select 모드)
  */
 export const BasicFields: React.FC<BasicFieldsProps> = ({
   selectedTeam,
@@ -47,26 +63,44 @@ export const BasicFields: React.FC<BasicFieldsProps> = ({
   showTimeRange = true,
   checkboxId = 'terms',
 }) => {
+  // 계층형 DrillDown 데이터 생성
+  const hierarchicalData = convertToHierarchicalDrillDown(teamOptions, sortOptions);
+
+  // DrillDown onChange 핸들러
+  const handleChange = (tags: SelectedTag[]) => {
+    if (tags.length > 0) {
+      const selectedTag = tags[0];
+
+      // path 길이로 어느 레벨이 선택되었는지 확인
+      if (selectedTag.path.length === 1) {
+        // 1단계 (종류)만 선택
+        onTeamChange(selectedTag.id);
+      } else if (selectedTag.path.length === 2) {
+        // 2단계 (종류 > 정렬) 선택
+        const teamId = selectedTag.path[0];
+        const sortId = selectedTag.id.split('_')[1]; // "inbound_asc" -> "asc"
+
+        // teamId를 찾아서 value로 변환
+        const team = teamOptions.find(t => t.label === teamId);
+        if (team) {
+          onTeamChange(team.value);
+        }
+        onSortOrderChange(sortId);
+      }
+    }
+  };
+
   return (
     <>
       <div className='search-panel__data'>
-        <SelectBox
-          dataSource={teamOptions}
-          displayExpr="label"
-          valueExpr="value"
-          value={selectedTeam}
-          onValueChanged={(e) => onTeamChange(e.value)}
-          placeholder="종합"
-        />
-      </div>
-      <div className='search-panel__data'>
-        <SelectBox
-          dataSource={sortOptions}
-          displayExpr="label"
-          valueExpr="value"
-          value={sortOrder}
-          onValueChanged={(e) => onSortOrderChange(e.value)}
-          placeholder="전체"
+        <DrillDown
+          data={hierarchicalData}
+          onChange={handleChange}
+          placeholder="종류 선택"
+          mode="single"
+          variant="outlined"
+          levelLabels={['종류', '정렬']}
+          columnMinWidth={160}
         />
       </div>
       {showTimeRange && agreed !== undefined && onAgreedChange && (

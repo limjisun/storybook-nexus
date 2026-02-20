@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { SearchCondition } from '../src/components/SearchCondition';
 import type { OrganizationData, SelectOption } from '../src/components/SearchCondition';
 import { SelectBox } from 'devextreme-react/select-box';
 import { TagBox } from 'devextreme-react/tag-box';
 import { DateRangePicker } from '../src/components/DateRangePicker';
+import DrillDown from '../src/components/form/DrillDown';
+import CheckBox from '../src/components/form/CheckBox';
 
 /**
  * NEXUS SearchCondition 컴포넌트
@@ -70,6 +72,34 @@ const mockOrganizationData: OrganizationData = {
   ],
 };
 
+// 계층형 필터 데이터 (DrillDown용)
+const mockFilterData = [
+  {
+    id: 'inbound',
+    text: '인바운드',
+    items: [
+      { id: 'inbound_asc', text: '오름차순' },
+      { id: 'inbound_desc', text: '내림차순' },
+    ],
+  },
+  {
+    id: 'outbound',
+    text: '아웃바운드',
+    items: [
+      { id: 'outbound_asc', text: '오름차순' },
+      { id: 'outbound_desc', text: '내림차순' },
+    ],
+  },
+  {
+    id: 'support',
+    text: '지원팀',
+    items: [
+      { id: 'support_asc', text: '오름차순' },
+      { id: 'support_desc', text: '내림차순' },
+    ],
+  },
+];
+
 const mockTeamOptions: SelectOption[] = [
   { value: 'inbound', label: '인바운드' },
   { value: 'outbound', label: '아웃바운드' },
@@ -86,188 +116,422 @@ const mockSortOptions: SelectOption[] = [
 // ========================================
 
 /**
- * 기본 사용 예시
+ * 기본 예시 - 빈 SearchCondition
  *
- * 모든 필드를 표시하는 기본 구성입니다.
+ * Children 패턴으로 완전히 변경되었습니다.
+ * 모든 내용은 children으로 자유롭게 구성할 수 있습니다.
  */
 export const Default: Story = {
   args: {
-    organizationData: mockOrganizationData,
-    teamOptions: mockTeamOptions,
-    sortOptions: mockSortOptions,
-    onSubmit: (values) => {
-      console.log('Submit:', values);
-      alert('조회 실행!\n' + JSON.stringify(values, null, 2));
-    },
-    onCancel: () => {
-      console.log('Cancel');
-      alert('취소');
-    },
+    title: '조회 조건',
+    onSubmit: () => alert('조회 실행!'),
+    onCancel: () => alert('취소'),
+  },
+};
+
+// ========================================
+// Children 기반 예시
+// ========================================
+
+/**
+ * Children 패턴 - 여러 필드 예시
+ *
+ * SearchCondition.Row, Col, Data를 사용하여 자유롭게 구성합니다.
+ */
+export const WithMultipleFields: Story = {
+  render: () => {
+    const MultipleFieldsExample = () => {
+      const [startDate, setStartDate] = useState(new Date());
+      const [endDate, setEndDate] = useState(new Date(Date.now() + 7 * 24 * 60 * 60 * 1000));
+      const [startTime, setStartTime] = useState(new Date(new Date().setHours(0, 0, 0, 0)));
+      const [endTime, setEndTime] = useState(new Date(new Date().setHours(23, 59, 59, 999)));
+      const [holidaySetting, setHolidaySetting] = useState<'none' | 'exclude' | 'only' | 'customExclude' | 'weekendOnly'>('none');
+
+      return (
+        <SearchCondition
+          title="조회 조건 - 여러 필드"
+          buttons={[
+            { text: '취소', type: 'normal', onClick: () => alert('취소') },
+            { text: '조회', type: 'default', onClick: () => alert('조회!') },
+          ]}
+        >
+          <SearchCondition.Row twoColumns>
+            <SearchCondition.Col label="종류">
+              <SearchCondition.Data>
+                <DrillDown
+                  data={mockFilterData}
+                  mode="single"
+                  levelLabels={['종류', '정렬']}
+                  placeholder="종류와 정렬을 선택하세요"
+                  onChange={(selected) => {
+                    console.log('DrillDown changed:', selected);
+                  }}
+                />
+              </SearchCondition.Data>
+              
+            </SearchCondition.Col>
+            <SearchCondition.Col label="기간">
+              <DateRangePicker
+                startDate={startDate}
+                endDate={endDate}
+                onStartDateChange={setStartDate}
+                onEndDateChange={setEndDate}
+                showTime={true}
+                startTime={startTime}
+                endTime={endTime}
+                onStartTimeChange={setStartTime}
+                onEndTimeChange={setEndTime}
+                showHolidaySetting={true}
+                holidaySetting={holidaySetting}
+                onHolidaySettingChange={setHolidaySetting}
+              />
+            </SearchCondition.Col>
+          </SearchCondition.Row>
+
+          <SearchCondition.Row>
+            <SearchCondition.Col label="자원범위">
+              <SearchCondition.Data>
+                <DrillDown
+                  data={mockFilterData}
+                  mode="multi"
+                  levelLabels={['종류', '정렬']}
+                  placeholder="자원 선택"
+                  onChange={(selected) => {
+                    console.log('자원범위 DrillDown changed:', selected);
+                  }}
+                />
+              </SearchCondition.Data>
+            </SearchCondition.Col>
+          </SearchCondition.Row>
+        </SearchCondition>
+      );
+    };
+
+    return <MultipleFieldsExample />;
   },
 };
 
 /**
- * 시간범위 체크박스 없음
+ * 2-Column 레이아웃
  *
- * `showTimeRangeCheckbox={false}`로 시간범위 체크박스를 숨길 수 있습니다.
+ * twoColumns prop으로 2열 레이아웃을 만들 수 있습니다.
  */
-export const WithoutTimeRangeCheckbox: Story = {
-  args: {
-    organizationData: mockOrganizationData,
-    teamOptions: mockTeamOptions,
-    sortOptions: mockSortOptions,
-    showTimeRangeCheckbox: false,
-    onSubmit: (values) => console.log('Submit:', values),
-    onCancel: () => console.log('Cancel'),
-  },
+export const TwoColumnLayout: Story = {
+  render: () => (
+    <SearchCondition
+      title="조회 조건 - 2열 레이아웃"
+      buttons={[
+        { text: '취소', type: 'normal', onClick: () => alert('취소') },
+        { text: '조회', type: 'default', onClick: () => alert('조회!') },
+      ]}
+    >
+      <SearchCondition.Row twoColumns>
+        <SearchCondition.Col label="종류">
+          <SearchCondition.Data>
+            <SelectBox
+              dataSource={mockTeamOptions}
+              valueExpr="value"
+              displayExpr="label"
+              placeholder="팀 선택"
+              stylingMode="outlined"
+            />
+          </SearchCondition.Data>
+        </SearchCondition.Col>
+        <SearchCondition.Col label="정렬">
+          <SearchCondition.Data>
+            <SelectBox
+              dataSource={mockSortOptions}
+              valueExpr="value"
+              displayExpr="label"
+              placeholder="정렬 선택"
+              stylingMode="outlined"
+            />
+          </SearchCondition.Data>
+        </SearchCondition.Col>
+      </SearchCondition.Row>
+
+      <SearchCondition.Row>
+        <SearchCondition.Col label="조직">
+          <SearchCondition.Data>
+            <TagBox
+              dataSource={mockOrganizationData.centers}
+              valueExpr="id"
+              displayExpr="name"
+              placeholder="센터 선택"
+              stylingMode="outlined"
+              showSelectionControls={true}
+            />
+          </SearchCondition.Data>
+          <SearchCondition.Data>
+            <TagBox
+              dataSource={mockOrganizationData.tenants}
+              valueExpr="cid"
+              displayExpr="name"
+              placeholder="테넌트 선택"
+              stylingMode="outlined"
+              showSelectionControls={true}
+            />
+          </SearchCondition.Data>
+        </SearchCondition.Col>
+      </SearchCondition.Row>
+    </SearchCondition>
+  ),
 };
 
 /**
- * 조직 필드 2개만 (센터 + 테넌트)
+ * 다국어 지원 - 한국어
  *
- * `organizationFields`로 필요한 조직 필드만 선택적으로 표시합니다.
+ * `lang="ko"` 속성을 사용하여 한국어 레이블 너비(70px)를 적용합니다.
+ * CSS 변수 `--label-width`를 통해 레이블 너비가 자동으로 조정됩니다.
  */
-export const OrganizationTwoLevels: Story = {
-  args: {
-    title: '조회 조건 - 2단계',
-    organizationData: mockOrganizationData,
-    teamOptions: mockTeamOptions,
-    sortOptions: mockSortOptions,
-    organizationFields: {
-      center: true,
-      tenant: true,
-      group: false,
-      team: false,
-      agent: false,
-      channel: false,
-    },
-    onSubmit: (values) => console.log('Submit:', values),
-    onCancel: () => console.log('Cancel'),
-  },
+export const I18nKorean: Story = {
+  render: () => (
+    <div lang="ko">
+      <SearchCondition
+        title="조회 조건"
+        buttons={[
+          { text: '취소', type: 'normal', onClick: () => alert('취소') },
+          { text: '조회', type: 'default', onClick: () => alert('조회!') },
+        ]}
+      >
+        <SearchCondition.Row twoColumns>
+          <SearchCondition.Col label="종류">
+            <SearchCondition.Data>
+              <SelectBox
+                dataSource={mockTeamOptions}
+                valueExpr="value"
+                displayExpr="label"
+                placeholder="팀 선택"
+                stylingMode="outlined"
+              />
+            </SearchCondition.Data>
+          </SearchCondition.Col>
+          <SearchCondition.Col label="정렬순서">
+            <SearchCondition.Data>
+              <SelectBox
+                dataSource={mockSortOptions}
+                valueExpr="value"
+                displayExpr="label"
+                placeholder="정렬 선택"
+                stylingMode="outlined"
+              />
+            </SearchCondition.Data>
+          </SearchCondition.Col>
+        </SearchCondition.Row>
+
+        <SearchCondition.Row>
+          <SearchCondition.Col label="조직">
+            <SearchCondition.Data>
+              <TagBox
+                dataSource={mockOrganizationData.centers}
+                valueExpr="id"
+                displayExpr="name"
+                placeholder="센터 선택"
+                stylingMode="outlined"
+                showSelectionControls={true}
+              />
+            </SearchCondition.Data>
+            <SearchCondition.Data>
+              <TagBox
+                dataSource={mockOrganizationData.tenants}
+                valueExpr="cid"
+                displayExpr="name"
+                placeholder="테넌트 선택"
+                stylingMode="outlined"
+                showSelectionControls={true}
+              />
+            </SearchCondition.Data>
+          </SearchCondition.Col>
+        </SearchCondition.Row>
+      </SearchCondition>
+    </div>
+  ),
 };
 
 /**
- * 조직 필드 3개 (센터 + 테넌트 + 그룹)
+ * 다국어 지원 - 영어
  *
- * 3단계 조직 계층 선택 예시입니다.
+ * `lang="en"` 속성을 사용하여 영어 레이블 너비(120px)를 적용합니다.
+ * 영어는 한국어보다 텍스트가 길어지므로 더 넓은 레이블 공간을 제공합니다.
  */
-export const OrganizationThreeLevels: Story = {
-  args: {
-    title: '조회 조건 - 3단계',
-    organizationData: mockOrganizationData,
-    teamOptions: mockTeamOptions,
-    sortOptions: mockSortOptions,
-    organizationFields: {
-      center: true,
-      tenant: true,
-      group: true,
-      team: false,
-      agent: false,
-      channel: false,
-    },
-    onSubmit: (values) => console.log('Submit:', values),
-    onCancel: () => console.log('Cancel'),
-  },
+export const I18nEnglish: Story = {
+  render: () => (
+    <div lang="en">
+      <SearchCondition
+        title="Search Conditions"
+        buttons={[
+          { text: 'Cancel', type: 'normal', onClick: () => alert('Cancel') },
+          { text: 'Search', type: 'default', onClick: () => alert('Search!') },
+        ]}
+      >
+        <SearchCondition.Row twoColumns>
+          <SearchCondition.Col label="Category">
+            <SearchCondition.Data>
+              <SelectBox
+                dataSource={[
+                  { value: 'inbound', label: 'Inbound' },
+                  { value: 'outbound', label: 'Outbound' },
+                  { value: 'support', label: 'Support Team' },
+                ]}
+                valueExpr="value"
+                displayExpr="label"
+                placeholder="Select team"
+                stylingMode="outlined"
+              />
+            </SearchCondition.Data>
+          </SearchCondition.Col>
+          <SearchCondition.Col label="Sort Order">
+            <SearchCondition.Data>
+              <SelectBox
+                dataSource={[
+                  { value: 'asc', label: 'Ascending' },
+                  { value: 'desc', label: 'Descending' },
+                ]}
+                valueExpr="value"
+                displayExpr="label"
+                placeholder="Select order"
+                stylingMode="outlined"
+              />
+            </SearchCondition.Data>
+          </SearchCondition.Col>
+        </SearchCondition.Row>
+
+        <SearchCondition.Row>
+          <SearchCondition.Col label="Organization">
+            <SearchCondition.Data>
+              <TagBox
+                dataSource={mockOrganizationData.centers}
+                valueExpr="id"
+                displayExpr="name"
+                placeholder="Select center"
+                stylingMode="outlined"
+                showSelectionControls={true}
+              />
+            </SearchCondition.Data>
+            <SearchCondition.Data>
+              <TagBox
+                dataSource={mockOrganizationData.tenants}
+                valueExpr="cid"
+                displayExpr="name"
+                placeholder="Select tenant"
+                stylingMode="outlined"
+                showSelectionControls={true}
+              />
+            </SearchCondition.Data>
+          </SearchCondition.Col>
+        </SearchCondition.Row>
+      </SearchCondition>
+    </div>
+  ),
 };
 
 /**
- * 조직만 표시
+ * 다국어 비교 - 한영 나란히
  *
- * 기본 필터와 날짜 범위 없이 조직 선택만 표시합니다.
+ * 한국어와 영어 버전을 나란히 배치하여 레이블 너비 차이를 시각적으로 비교할 수 있습니다.
+ * CSS 변수가 언어별로 올바르게 적용되는지 확인할 수 있습니다.
  */
-export const OrganizationOnly: Story = {
-  args: {
-    title: '조직 선택',
-    organizationData: mockOrganizationData,
-    showFields: {
-      basicFilters: false,
-      dateRange: false,
-      organization: true,
-    },
-    onSubmit: (values) => console.log('Submit:', values),
-    onCancel: () => console.log('Cancel'),
-  },
-};
+export const I18nComparison: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '40px' }}>
+      <div>
+        <h3 style={{ marginBottom: '16px', fontSize: '16px', fontWeight: 'bold' }}>
+          한국어 (label-width: 70px)
+        </h3>
+        <div lang="ko">
+          <SearchCondition
+            title="조회 조건"
+            buttons={[
+              { text: '취소', type: 'normal', onClick: () => {} },
+              { text: '조회', type: 'default', onClick: () => {} },
+            ]}
+          >
+            <SearchCondition.Row twoColumns>
+              <SearchCondition.Col label="종류">
+                <SearchCondition.Data>
+                  <SelectBox
+                    dataSource={mockTeamOptions}
+                    valueExpr="value"
+                    displayExpr="label"
+                    placeholder="팀 선택"
+                    stylingMode="outlined"
+                  />
+                </SearchCondition.Data>
+              </SearchCondition.Col>
+              <SearchCondition.Col label="정렬순서">
+                <SearchCondition.Data>
+                  <SelectBox
+                    dataSource={mockSortOptions}
+                    valueExpr="value"
+                    displayExpr="label"
+                    placeholder="정렬 선택"
+                    stylingMode="outlined"
+                  />
+                </SearchCondition.Data>
+              </SearchCondition.Col>
+            </SearchCondition.Row>
+          </SearchCondition>
+        </div>
+      </div>
 
-/**
- * 날짜 범위만 표시
- *
- * 조직 없이 날짜 범위 선택만 표시합니다.
- */
-export const DateRangeOnly: Story = {
-  args: {
-    title: '기간 선택',
-    showFields: {
-      basicFilters: false,
-      dateRange: true,
-      organization: false,
-    },
-    onSubmit: (values) => console.log('Submit:', values),
-    onCancel: () => console.log('Cancel'),
-  },
-};
-
-/**
- * 버튼 1개만
- *
- * 확인 버튼만 표시하는 예시입니다.
- */
-export const SingleButton: Story = {
-  args: {
-    organizationData: mockOrganizationData,
-    teamOptions: mockTeamOptions,
-    sortOptions: mockSortOptions,
-    buttons: [
-      {
-        text: '조회',
-        type: 'default',
-        onClick: () => alert('조회 실행!'),
-      },
-    ],
-  },
-};
-
-/**
- * 버튼 3개
- *
- * 초기화, 취소, 확인 버튼 3개를 표시합니다.
- */
-export const ThreeButtons: Story = {
-  args: {
-    organizationData: mockOrganizationData,
-    teamOptions: mockTeamOptions,
-    sortOptions: mockSortOptions,
-    buttons: [
-      {
-        text: '초기화',
-        type: 'normal',
-        onClick: () => alert('초기화'),
-      },
-      {
-        text: '취소',
-        type: 'normal',
-        onClick: () => alert('취소'),
-      },
-      {
-        text: '조회',
-        type: 'default',
-        onClick: () => alert('조회!'),
-      },
-    ],
-  },
+      <div>
+        <h3 style={{ marginBottom: '16px', fontSize: '16px', fontWeight: 'bold' }}>
+          English (label-width: 120px)
+        </h3>
+        <div lang="en">
+          <SearchCondition
+            title="Search Conditions"
+            buttons={[
+              { text: 'Cancel', type: 'normal', onClick: () => {} },
+              { text: 'Search', type: 'default', onClick: () => {} },
+            ]}
+          >
+            <SearchCondition.Row twoColumns>
+              <SearchCondition.Col label="Category">
+                <SearchCondition.Data>
+                  <SelectBox
+                    dataSource={[
+                      { value: 'inbound', label: 'Inbound' },
+                      { value: 'outbound', label: 'Outbound' },
+                      { value: 'support', label: 'Support Team' },
+                    ]}
+                    valueExpr="value"
+                    displayExpr="label"
+                    placeholder="Select team"
+                    stylingMode="outlined"
+                  />
+                </SearchCondition.Data>
+              </SearchCondition.Col>
+              <SearchCondition.Col label="Sort Order">
+                <SearchCondition.Data>
+                  <SelectBox
+                    dataSource={[
+                      { value: 'asc', label: 'Ascending' },
+                      { value: 'desc', label: 'Descending' },
+                    ]}
+                    valueExpr="value"
+                    displayExpr="label"
+                    placeholder="Select order"
+                    stylingMode="outlined"
+                  />
+                </SearchCondition.Data>
+              </SearchCondition.Col>
+            </SearchCondition.Row>
+          </SearchCondition>
+        </div>
+      </div>
+    </div>
+  ),
 };
 
 /**
  * 버튼 여러 개
  *
- * 다양한 액션 버튼들을 표시할 수 있습니다.
+ * buttons prop으로 다양한 액션 버튼을 추가할 수 있습니다.
  */
 export const MultipleButtons: Story = {
   args: {
     title: '조회 조건 - 다중 액션',
-    organizationData: mockOrganizationData,
-    teamOptions: mockTeamOptions,
-    sortOptions: mockSortOptions,
     buttons: [
       {
         text: '초기화',
@@ -298,328 +562,80 @@ export const MultipleButtons: Story = {
   },
 };
 
-// ========================================
-// Children 기반 예시
-// ========================================
-
 /**
- * 기존 필드 + 동적 행 추가
+ * DrillDown + Checkbox + DateRangePicker 연동
  *
- * 기본 필드(종류, 기간, 조직)는 자동으로 보여주고,
- * 그 아래에 추가로 동적인 행을 더할 수 있습니다.
+ * Children 패턴을 사용한 실전 예시:
+ * - DrillDown (single mode)로 종류/정렬 선택
+ * - "시간범위" 체크박스
+ * - 체크박스 상태에 따라 DateRangePicker 활성화/비활성화
  */
-export const WithAdditionalRows: Story = {
-  render: () => (
-    <SearchCondition
-      title="조회 조건 - 기본 + 추가"
-      organizationData={mockOrganizationData}
-      teamOptions={mockTeamOptions}
-      sortOptions={mockSortOptions}
-      buttons={[
-        { text: '취소', type: 'normal', onClick: () => alert('취소') },
-        { text: '조회', type: 'default', onClick: () => alert('조회!') },
-      ]}
-    >
-      {/* 기존 필드는 자동 생성되고, 여기에 추가 행들 */}
-      <SearchCondition.Row>
-        <SearchCondition.Col label="상태">
-          <SearchCondition.Data>
-            <SelectBox
-              dataSource={[
-                { value: 'active', label: '활성' },
-                { value: 'inactive', label: '비활성' },
-                { value: 'pending', label: '대기중' },
-              ]}
-              valueExpr="value"
-              displayExpr="label"
-              placeholder="상태 선택"
-              stylingMode="outlined"
-            />
-          </SearchCondition.Data>
-        </SearchCondition.Col>
-        
-      </SearchCondition.Row>
+export const WithDrillDownAndCheckbox: Story = {
+  render: () => {
+    const DrillDownExample = () => {
+      const [selectedFilter, setSelectedFilter] = useState<string[]>([]);
+      const [useTimeRange, setUseTimeRange] = useState(false);
+      const [startDate, setStartDate] = useState(new Date());
+      const [endDate, setEndDate] = useState(new Date(Date.now() + 7 * 24 * 60 * 60 * 1000));
 
-      <SearchCondition.Row>
-        <SearchCondition.Col label="우선순위">
-          <SearchCondition.Data>
-            <SelectBox
-              dataSource={[
-                { value: 'high', label: '높음' },
-                { value: 'medium', label: '보통' },
-                { value: 'low', label: '낮음' },
-              ]}
-              valueExpr="value"
-              displayExpr="label"
-              placeholder="우선순위 선택"
-              stylingMode="outlined"
-            />
-          </SearchCondition.Data>
-        </SearchCondition.Col>
-      </SearchCondition.Row>
+      return (
+        <SearchCondition
+          title="조회 조건 - DrillDown + Checkbox"
+          buttons={[
+            { text: '취소', type: 'normal', onClick: () => console.log('취소') },
+            { text: '조회', type: 'default', onClick: () => {
+              console.log('조회:', { selectedFilter, useTimeRange, startDate, endDate });
+              alert(`조회!\n필터: ${selectedFilter.join(' > ')}\n시간범위 사용: ${useTimeRange}`);
+            }},
+          ]}
+        >
+          {/* Row 1: DrillDown 필터 */}
+          <SearchCondition.Row>
+            <SearchCondition.Col label="필터">
+              <SearchCondition.Data>
+                <DrillDown
+                  data={mockFilterData}
+                  mode="single"
+                  levelLabels={['종류', '정렬']}
+                  placeholder="종류와 정렬을 선택하세요"
+                  onChange={(selected) => {
+                    console.log('DrillDown changed:', selected);
+                    setSelectedFilter(selected);
+                  }}
+                />
+              </SearchCondition.Data>
+            </SearchCondition.Col>
+          </SearchCondition.Row>
 
-      <SearchCondition.Row>
-        <SearchCondition.Col label="담당자">
-          <SearchCondition.Data>
-            <TagBox
-              dataSource={[
-                { id: 1, name: '김철수' },
-                { id: 2, name: '이영희' },
-                { id: 3, name: '박민수' },
-              ]}
-              valueExpr="id"
-              displayExpr="name"
-              placeholder="담당자 선택"
-              stylingMode="outlined"
-              showSelectionControls={true}
-            />
-          </SearchCondition.Data>
-        </SearchCondition.Col>
-      </SearchCondition.Row>
-    </SearchCondition>
-  ),
+          {/* Row 2: 시간범위 체크박스 + DateRangePicker */}
+          <SearchCondition.Row>
+            <SearchCondition.Col label="기간">
+              <SearchCondition.Data autoWidth>
+                <CheckBox
+                  label="시간범위"
+                  checked={useTimeRange}
+                  onChange={(checked) => {
+                    console.log('Checkbox changed:', checked);
+                    setUseTimeRange(checked);
+                  }}
+                />
+              </SearchCondition.Data>
+              <SearchCondition.Data>
+                <DateRangePicker
+                  startDate={startDate}
+                  endDate={endDate}
+                  onStartDateChange={setStartDate}
+                  onEndDateChange={setEndDate}
+                  disabled={!useTimeRange}
+                />
+              </SearchCondition.Data>
+            </SearchCondition.Col>
+          </SearchCondition.Row>
+        </SearchCondition>
+      );
+    };
+
+    return <DrillDownExample />;
+  },
 };
 
-/**
- * Children만 사용 - 완전 커스텀
- *
- * `SearchCondition.Row`만 사용하여 완전히 자유롭게 구성합니다.
- * showFields를 빈 객체로 주면 기본 필드 없이 children만 보여집니다.
- */
-export const ChildrenOnly: Story = {
-  render: () => (
-    <SearchCondition
-      title="조회 조건 - 완전 커스텀"
-      showFields={{}} // 기본 필드 없음
-      buttons={[
-        { text: '취소', type: 'normal', onClick: () => alert('취소') },
-        { text: '조회', type: 'default', onClick: () => alert('조회!') },
-      ]}
-    >
-      <SearchCondition.Row twoColumns>
-        <SearchCondition.Col label="종류">
-          <SearchCondition.Data>
-            <SelectBox
-              dataSource={mockTeamOptions}
-              valueExpr="value"
-              displayExpr="label"
-              placeholder="팀 선택"
-              stylingMode="outlined"
-            />
-          </SearchCondition.Data>
-          <SearchCondition.Data>
-            <SelectBox
-              dataSource={mockSortOptions}
-              valueExpr="value"
-              displayExpr="label"
-              placeholder="정렬 선택"
-              stylingMode="outlined"
-            />
-          </SearchCondition.Data>
-        </SearchCondition.Col>
-        <SearchCondition.Col label="기간">
-          <DateRangePicker
-            startDate={new Date()}
-            endDate={new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)}
-            onStartDateChange={(date) => console.log('Start:', date)}
-            onEndDateChange={(date) => console.log('End:', date)}
-          />
-        </SearchCondition.Col>
-      </SearchCondition.Row>
-
-
-      <SearchCondition.Row>
-        <SearchCondition.Col label="조직">
-          <SearchCondition.Data>
-            <TagBox
-              dataSource={mockOrganizationData.centers}
-              valueExpr="id"
-              displayExpr="name"
-              placeholder="센터 선택"
-              stylingMode="outlined"
-              showSelectionControls={true}
-            />
-          </SearchCondition.Data>
-          <SearchCondition.Data>
-            <TagBox
-              dataSource={mockOrganizationData.tenants}
-              valueExpr="cid"
-              displayExpr="name"
-              placeholder="테넌트 선택"
-              stylingMode="outlined"
-              showSelectionControls={true}
-            />
-          </SearchCondition.Data>
-        </SearchCondition.Col>
-      </SearchCondition.Row>
-    </SearchCondition>
-  ),
-};
-
-
-
-/**
- * 2컬럼 레이아웃 사용
- *
- * twoColumns prop을 사용하여 2컬럼 그리드 레이아웃을 만들 수 있습니다.
- * 한 Row 안에 2개의 Col이 좌우로 배치됩니다.
- */
-export const TwoColumnsLayout: Story = {
-  render: () => (
-    <SearchCondition
-      title="2컬럼 레이아웃"
-      showFields={{}}
-      buttons={[
-        { text: '취소', type: 'normal', onClick: () => alert('취소') },
-        { text: '조회', type: 'default', onClick: () => alert('조회!') },
-      ]}
-    >
-      {/* 2컬럼 레이아웃 - 좌우로 나란히 */}
-      <SearchCondition.Row twoColumns>
-        <SearchCondition.Col label="종류">
-          <SearchCondition.Data>
-            <SelectBox
-              dataSource={mockTeamOptions}
-              valueExpr="value"
-              displayExpr="label"
-              placeholder="팀 선택"
-              stylingMode="outlined"
-            />
-          </SearchCondition.Data>
-        </SearchCondition.Col>
-        <SearchCondition.Col label="차원단위">
-          <SearchCondition.Data>
-            <SelectBox
-              dataSource={mockSortOptions}
-              valueExpr="value"
-              displayExpr="label"
-              placeholder="센터 선택"
-              stylingMode="outlined"
-            />
-          </SearchCondition.Data>
-        </SearchCondition.Col>
-      </SearchCondition.Row>
-
-      {/* 1컬럼 레이아웃 (기본값) */}
-      <SearchCondition.Row>
-        <SearchCondition.Col label="기간">
-          <DateRangePicker
-            startDate={new Date()}
-            endDate={new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)}
-            onStartDateChange={(date) => console.log('Start:', date)}
-            onEndDateChange={(date) => console.log('End:', date)}
-          />
-        </SearchCondition.Col>
-      </SearchCondition.Row>
-    </SearchCondition>
-  ),
-};
-
-/**
- * 복합 예시 - 모든 기능 활용
- *
- * Data 컴포넌트, autoWidth, twoColumns 등 모든 기능을 함께 사용한 예시입니다.
- */
-export const ComplexExample: Story = {
-  render: () => (
-    <SearchCondition
-      title="복합 예시"
-      showFields={{}}
-      buttons={[
-        { text: '초기화', type: 'normal', onClick: () => alert('초기화') },
-        { text: '취소', type: 'normal', onClick: () => alert('취소') },
-        { text: '조회', type: 'default', onClick: () => alert('조회!') },
-      ]}
-    >
-      {/* 2컬럼: 좌우로 2개의 Col */}
-      <SearchCondition.Row twoColumns>
-        <SearchCondition.Col label="종류">
-          <SearchCondition.Data>
-            <SelectBox
-              dataSource={mockTeamOptions}
-              valueExpr="value"
-              displayExpr="label"
-              placeholder="팀 선택"
-              stylingMode="outlined"
-            />
-          </SearchCondition.Data>
-        </SearchCondition.Col>
-        <SearchCondition.Col label="차원단위">
-          <SearchCondition.Data>
-            <SelectBox
-              dataSource={mockSortOptions}
-              valueExpr="value"
-              displayExpr="label"
-              placeholder="센터 선택"
-              stylingMode="outlined"
-            />
-          </SearchCondition.Data>
-        </SearchCondition.Col>
-      </SearchCondition.Row>
-
-      {/* 1컬럼: 날짜 범위 + 체크박스 (autoWidth) */}
-      <SearchCondition.Row>
-        <SearchCondition.Col label="기간">
-          <DateRangePicker
-            startDate={new Date()}
-            endDate={new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)}
-            onStartDateChange={(date) => console.log('Start:', date)}
-            onEndDateChange={(date) => console.log('End:', date)}
-          />
-          <SearchCondition.Data autoWidth>
-            <label style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-              <input type="checkbox" />
-              <span>시간 포함</span>
-            </label>
-          </SearchCondition.Data>
-        </SearchCondition.Col>
-      </SearchCondition.Row>
-
-      {/* 1컬럼: 여러 개의 태그박스 */}
-      <SearchCondition.Row>
-        <SearchCondition.Col label="조직">
-          <SearchCondition.Data>
-            <TagBox
-              dataSource={mockOrganizationData.centers}
-              valueExpr="id"
-              displayExpr="name"
-              placeholder="센터 선택"
-              stylingMode="outlined"
-            />
-          </SearchCondition.Data>
-          <SearchCondition.Data>
-            <TagBox
-              dataSource={mockOrganizationData.tenants}
-              valueExpr="cid"
-              displayExpr="name"
-              placeholder="테넌트 선택"
-              stylingMode="outlined"
-            />
-          </SearchCondition.Data>
-          <SearchCondition.Data>
-            <TagBox
-              dataSource={mockOrganizationData.groups}
-              valueExpr="tid"
-              displayExpr="name"
-              placeholder="그룹 선택"
-              stylingMode="outlined"
-            />
-          </SearchCondition.Data>
-          <SearchCondition.Data autoWidth>
-            <button
-              style={{
-                padding: '6px 12px',
-                border: '1px solid #ddd',
-                borderRadius: '4px',
-                cursor: 'pointer'
-              }}
-              onClick={() => alert('전체 선택')}
-            >
-              전체 선택
-            </button>
-          </SearchCondition.Data>
-        </SearchCondition.Col>
-      </SearchCondition.Row>
-    </SearchCondition>
-  ),
-};
