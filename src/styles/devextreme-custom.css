@@ -39,10 +39,8 @@
 
 .date-picker-wrap { display: flex; gap: 10px;}
 .date-picker__group {display: flex; gap: 17px;}
-
 .date-picker__item {position: relative;}
 .date-picker-container{position: relative;}
-
 .date-range-row {display: flex; gap: 17px;}
 .date-picker__time-item:last-child::before,
 .date-picker-container:last-child::before {content: '~'; position: absolute; left: -12px; top: 4px;}

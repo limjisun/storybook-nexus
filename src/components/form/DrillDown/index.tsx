@@ -130,7 +130,7 @@ export default function DrillDown({
     }, [isOpen]);
 
     return (
-        <div ref={triggerRef} style={{ position: 'relative' }} className={className}>
+         <div ref={triggerRef} className={`drilldown-trigger ${className || ''}`}>
             <DrillDownTrigger
                 selectedTags={selectedTags}
                 levelLabels={levelLabels}

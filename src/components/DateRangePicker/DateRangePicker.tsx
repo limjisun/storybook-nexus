@@ -120,6 +120,11 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
             applyButtonText="저장"
             cancelButtonText="닫기"
             disabled={disabled}
+            dropDownOptions={{
+              wrapperAttr: {
+                class: 'custom-daterange-popup'
+              }
+            }}
           />
         </div>
       </div>

@@ -16,7 +16,7 @@
 [lang="ja"] .search-panel__label {--label-width: 90px;}
 [lang="zh"] .search-panel__label {--label-width: 80px;}*/
 .search-panel__field {align-items: center; display: flex; flex-wrap: wrap; gap: 6px;}
-.search-panel__data {width: 200px;}
+
 .search-panel__data--auto {width: auto;}
 @media (max-width: 1540px) {.search-panel__field .search-panel__data {width: 170px;}}
 @container (max-width: 1440px) {
