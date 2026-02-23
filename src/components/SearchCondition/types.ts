@@ -3,131 +3,6 @@
  */
 
 // ========================================
-// 레이아웃 타입
-// ========================================
-export type LayoutType = 'default' | 'compact' | 'full' | 'grouped' | 'inline';
-
-// ========================================
-// 조직 데이터 타입
-// ========================================
-export interface Center {
-  id: number;
-  name: string;
-}
-
-export interface Tenant {
-  id: number;
-  center_id: number;
-  cid: string;
-  name: string;
-}
-
-export interface Group {
-  id: number;
-  tenant_id: number;
-  tid: string;
-  name: string;
-}
-
-export interface Team {
-  id: number;
-  upper_id: number;
-  tgid: string;
-  name: string;
-}
-
-export interface Agent {
-  id: number;
-  name: string;
-}
-
-export interface Channel {
-  id: number;
-  name: string;
-}
-
-export interface AllDataItem {
-  center_id: number;
-  tenant_cid: string;
-  tenant_id: number;
-  group_id: number;
-  team_id: number;
-  team_name: string;
-  agent_id: number;
-  agent_name: string;
-  channel_id: number;
-  channel_name: string;
-}
-
-// ========================================
-// 조직 데이터 컨테이너
-// ========================================
-export interface OrganizationData {
-  centers: Center[];
-  tenants: Tenant[];
-  groups: Group[];
-  teams: Team[];
-  allData: AllDataItem[];
-}
-
-// ========================================
-// 필터 옵션
-// ========================================
-export interface SelectOption {
-  value: string;
-  label: string;
-}
-
-// ========================================
-// 검색 폼 값
-// ========================================
-export interface SearchFormValues {
-  // 기본 필터
-  selectedTeam: string;
-  sortOrder: string;
-  agreed: boolean;
-
-  // 날짜/시간
-  startDate: Date;
-  endDate: Date;
-  startTime: Date;
-  endTime: Date;
-  holidaySetting?: 'none' | 'exclude' | 'only' | 'customExclude' | 'weekendOnly';
-
-  // 조직 선택
-  selectedCenters: number[];
-  selectedTenants: string[];
-  selectedGroups: string[];
-  selectedTeams: string[];
-  selectedAgents: number[];
-  selectedChannels: number[];
-}
-
-// ========================================
-// 필드 표시 제어
-// ========================================
-export interface FieldsConfig {
-  /** 기본 필터 표시 (종류, 정렬, 시간범위) */
-  basicFilters?: boolean;
-  /** 날짜 범위 선택 표시 */
-  dateRange?: boolean;
-  /** 조직 계층 선택 표시 */
-  organization?: boolean;
-}
-
-// ========================================
-// 조직 필드 표시 제어
-// ========================================
-export interface OrganizationFieldsConfig {
-  center?: boolean;
-  tenant?: boolean;
-  group?: boolean;
-  team?: boolean;
-  agent?: boolean;
-  channel?: boolean;
-}
-
-// ========================================
 // 버튼 설정
 // ========================================
 export interface ButtonConfig {
@@ -140,48 +15,11 @@ export interface ButtonConfig {
 }
 
 // ========================================
-// SearchCondition Props
+// SearchCondition Props (Children 패턴)
 // ========================================
-// DrillDown 관련 타입 import
-export interface DrillDownItem {
-  id: string;
-  text: string;
-  items?: DrillDownItem[];
-}
-
 export interface SearchConditionProps {
-  /** 조직 데이터 */
-  organizationData?: OrganizationData;
-
-  /** 필터 계층형 데이터 (DrillDown 사용) */
-  filterData?: DrillDownItem[];
-
-  /** 필터 컬럼 헤더 라벨 */
-  filterLevelLabels?: string[];
-
-  /** 필터 선택 변경 핸들러 */
-  onFilterChange?: (selectedIds: string[]) => void;
-
-  /** 필터 라벨 (기본값: "필터") */
-  filterLabel?: string;
-
-  /** 필터 선택 모드 (기본값: "single") */
-  filterMode?: 'single' | 'multi';
-
-  /** 표시할 필드 제어 */
-  showFields?: FieldsConfig;
-
-  /** 조직 필드 개별 제어 (몇 개만 보여줄지) */
-  organizationFields?: OrganizationFieldsConfig;
-
-  /** 시간범위 체크박스 표시 여부 */
-  showTimeRangeCheckbox?: boolean;
-
-  /** 초기값 */
-  initialValues?: Partial<SearchFormValues>;
-
   /** 확인 버튼 클릭 핸들러 (기본 버튼 사용 시) */
-  onSubmit?: (values: SearchFormValues) => void;
+  onSubmit?: () => void;
 
   /** 취소 버튼 클릭 핸들러 (기본 버튼 사용 시) */
   onCancel?: () => void;
@@ -196,39 +34,6 @@ export interface SearchConditionProps {
   /** 제목 텍스트 */
   title?: string;
 
-  /** children을 사용한 동적 행 구성 */
+  /** children을 사용한 완전 자유 구성 */
   children?: React.ReactNode;
-}
-
-// ========================================
-// 내부 Hook 반환 타입
-// ========================================
-export interface UseSearchConditionReturn {
-  // State values
-  values: SearchFormValues;
-
-  // Setters
-  setSelectedTeam: (value: string) => void;
-  setSortOrder: (value: string) => void;
-  setAgreed: (value: boolean) => void;
-  setStartDate: (date: Date) => void;
-  setEndDate: (date: Date) => void;
-  setStartTime: (time: Date) => void;
-  setEndTime: (time: Date) => void;
-  setHolidaySetting: (value: 'none' | 'exclude' | 'only' | 'customExclude' | 'weekendOnly') => void;
-  setSelectedChannels: (channels: number[]) => void;
-
-  // 계층형 선택 핸들러 (캐스케이딩 리셋 포함)
-  handleCenterChange: (value: number[]) => void;
-  handleTenantChange: (value: string[]) => void;
-  handleGroupChange: (value: string[]) => void;
-  handleTeamChange: (value: string[]) => void;
-  handleAgentChange: (value: number[]) => void;
-
-  // Filtered data
-  filteredTenants: Tenant[];
-  filteredGroups: Group[];
-  filteredTeams: Team[];
-  filteredAgents: Agent[];
-  filteredChannels: Channel[];
 }

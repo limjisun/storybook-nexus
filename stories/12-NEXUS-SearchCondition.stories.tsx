@@ -1,12 +1,64 @@
 import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { SearchCondition } from '../src/components/SearchCondition';
-import type { OrganizationData, SelectOption } from '../src/components/SearchCondition';
 import { SelectBox } from 'devextreme-react/select-box';
 import { TagBox } from 'devextreme-react/tag-box';
 import { DateRangePicker } from '../src/components/DateRangePicker';
 import DrillDown from '../src/components/form/DrillDown';
 import CheckBox from '../src/components/form/CheckBox';
+
+// Mock 데이터용 타입 정의
+interface Center {
+  id: number;
+  name: string;
+}
+
+interface Tenant {
+  id: number;
+  center_id: number;
+  cid: string;
+  name: string;
+}
+
+interface Group {
+  id: number;
+  tenant_id: number;
+  tid: string;
+  name: string;
+}
+
+interface Team {
+  id: number;
+  upper_id: number;
+  tgid: string;
+  name: string;
+}
+
+interface AllDataItem {
+  center_id: number;
+  tenant_cid: string;
+  tenant_id: number;
+  group_id: number;
+  team_id: number;
+  team_name: string;
+  agent_id: number;
+  agent_name: string;
+  channel_id: number;
+  channel_name: string;
+}
+
+interface OrganizationData {
+  centers: Center[];
+  tenants: Tenant[];
+  groups: Group[];
+  teams: Team[];
+  allData: AllDataItem[];
+}
+
+interface SelectOption {
+  value: string;
+  label: string;
+}
 
 /**
  * NEXUS SearchCondition 컴포넌트
