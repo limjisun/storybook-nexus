@@ -140,6 +140,7 @@ export default function DrillDown({
                 placeholder={placeholder}
                 variant={variant}
                 disabled={disabled}
+                mode={mode}
             />
 
             {isOpen && !disabled && createPortal(

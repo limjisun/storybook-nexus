@@ -4,7 +4,7 @@
 .search-panel__title .button-wrap {margin-left: auto;}
 .search-panel__toggle {background: url('/images/Search_arr_off.png') no-repeat center; background-size: 9px; border: none; cursor: pointer; flex-shrink: 0; height: 18px; padding: 0; transition: transform 0.2s ease; width: 18px;}
 .search-panel__toggle--collapsed {transform: rotate(180deg);}
-.search-panel__body {border-bottom: 1px solid #EBEBEB; border-top: 1px solid #EBEBEB; max-height: 1000px; overflow: hidden; padding: 12px 0; transition: max-height 0.3s ease, padding 0.3s ease, border 0.3s ease;}
+.search-panel__body {border-bottom: 1px solid #EBEBEB; border-top: 1px solid #EBEBEB; container-type: inline-size; max-height: 1000px; overflow: hidden; padding: 12px 0; transition: max-height 0.3s ease, padding 0.3s ease, border 0.3s ease;}
 .search-panel__body--collapsed {border-top: none; max-height: 0; padding: 0;}
 .search-panel__row {display: grid; margin-bottom: 6px;}
 .search-panel__row:last-child {margin-bottom: 0;}
@@ -19,4 +19,9 @@
 .search-panel__data {width: 200px;}
 .search-panel__data--auto {width: auto;}
 @media (max-width: 1540px) {.search-panel__field .search-panel__data {width: 170px;}}
-@media screen and (max-width: 1440px) {.search-panel__row.grid--cols-2 {gap: 6px; grid-template-columns: repeat(1, 1fr);}}
+@container (max-width: 1440px) {
+    .search-panel__row.grid--cols-2 {
+        gap: 6px;
+        grid-template-columns: repeat(1, 1fr);
+    }
+}

@@ -180,36 +180,17 @@ export default function DrillDownSelect({
         const state = getItemCheckState(item, parentPath, selectedKeys);
 
         if (mode === 'single') {
-            // single 모드: 같은 컬럼의 다른 선택 제거 후 새 항목 선택
+            // single 모드: 하나만 선택 가능 - 기존 선택 모두 제거 후 새 항목만 추가
             const currentPath = [...parentPath, item.text];
             const currentPathKey = pathKey(currentPath);
             const isCurrentSelected = selectedKeys.has(currentPathKey);
 
             if (isCurrentSelected) {
                 // 이미 선택된 항목 클릭 시 해제
-                setTempSelectedTags((prev) =>
-                    prev.filter((t) => pathKey(t.path) !== currentPathKey)
-                );
+                setTempSelectedTags([]);
             } else {
-                // 같은 컬럼(같은 depth, 같은 부모)의 항목 제거 후 새 항목 추가
-                const parentPathKey = pathKey(parentPath);
-                setTempSelectedTags((prev) => {
-                    const filtered = prev.filter((t) => {
-                        // 1. 같은 depth인 경우: 같은 부모를 가진 항목만 제거
-                        if (t.path.length === currentPath.length) {
-                            const tParentPath = t.path.slice(0, -1);
-                            return pathKey(tParentPath) !== parentPathKey;
-                        }
-                        // 2. 더 깊은 depth인 경우: 현재 부모 경로를 공유하는 항목 제거 (하위 컬럼 리셋)
-                        if (t.path.length > currentPath.length) {
-                            // 현재 선택의 부모 경로와 같은지 확인
-                            return !parentPath.every((p, i) => t.path[i] === p);
-                        }
-                        // 3. 더 얕은 depth는 유지
-                        return true;
-                    });
-                    return [...filtered, { id: item.id, text: item.text, path: currentPath }];
-                });
+                // 모든 선택 제거 후 현재 항목만 추가
+                setTempSelectedTags([{ id: item.id, text: item.text, path: currentPath }]);
             }
         } else {
             // multi 모드: none → 전체 선택, partial/all → 전체 해제

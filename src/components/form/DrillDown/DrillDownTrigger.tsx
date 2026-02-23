@@ -23,6 +23,8 @@ export interface DrillDownTriggerProps {
     disabled?: boolean;
     /** 추가 CSS 클래스명 */
     className?: string;
+    /** 선택 모드 */
+    mode?: 'single' | 'multi';
 }
 
 /**
@@ -40,18 +42,22 @@ export default function DrillDownTrigger({
     variant = 'outlined',
     disabled = false,
     className = '',
+    mode = 'multi',
 }: DrillDownTriggerProps) {
     const containerRef = useRef<HTMLDivElement>(null);
     const measureRef = useRef<HTMLSpanElement>(null);
     const [isOverflowing, setIsOverflowing] = useState(false);
 
-    const leafTags = selectedTags.filter((tag) => {
-        const key = tag.path.join('\0');
-        return !selectedTags.some((other) => {
-            if (other === tag) return false;
-            return other.path.join('\0').startsWith(key + '\0');
+    // single mode일 때는 가장 긴 경로 하나만, multi mode일 때는 leaf 노드들만
+    const leafTags = mode === 'single'
+        ? selectedTags.slice(-1) // 마지막 선택된 항목만
+        : selectedTags.filter((tag) => {
+            const key = tag.path.join('\0');
+            return !selectedTags.some((other) => {
+                if (other === tag) return false;
+                return other.path.join('\0').startsWith(key + '\0');
+            });
         });
-    });
 
     // path 텍스트 생성
     const pathText = leafTags.map((tag) => tag.path.join(' > ')).join(', ');
