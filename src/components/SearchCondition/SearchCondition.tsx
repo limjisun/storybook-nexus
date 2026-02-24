@@ -11,8 +11,8 @@ import './SearchCondition.css';
 interface RowProps {
   /** 자식 요소 */
   children: React.ReactNode;
-  /** 2컬럼 레이아웃 여부 */
-  twoColumns?: boolean;
+  /** 컬럼 개수 (1~6) */
+  columns?: 1 | 2 | 3 | 4 | 5 | 6;
 }
 
 /** Col 컴포넌트 Props */
@@ -35,9 +35,11 @@ interface DataProps {
  * Row 서브 컴포넌트
  * 검색 조건의 각 행을 구성
  */
-const Row: React.FC<RowProps> = ({ children, twoColumns = false }) => {
+const Row: React.FC<RowProps> = ({ children, columns = 1 }) => {
+  const gridClass = columns > 1 ? `grid--cols-${columns}` : '';
+
   return (
-    <div className={`search-panel__row ${twoColumns ? 'grid--cols-2' : ''}`}>
+    <div className={`search-panel__row ${gridClass}`}>
       {children}
     </div>
   );
@@ -87,7 +89,7 @@ const Data: React.FC<DataProps> = ({ children, autoWidth = false }) => {
  * ## 사용 예시 (Children 기반)
  * ```tsx
  * <SearchCondition buttons={[...]} title="조회 조건">
- *   // 1컬럼 레이아웃
+ *   // 1컬럼 레이아웃 (기본값)
  *   <SearchCondition.Row>
  *     <SearchCondition.Col label="종류">
  *       <SearchCondition.Data>
@@ -97,7 +99,7 @@ const Data: React.FC<DataProps> = ({ children, autoWidth = false }) => {
  *   </SearchCondition.Row>
  *
  *   // 2컬럼 레이아웃
- *   <SearchCondition.Row twoColumns>
+ *   <SearchCondition.Row columns={2}>
  *     <SearchCondition.Col label="종류">
  *       <SearchCondition.Data>
  *         <SelectBox ... />
@@ -108,6 +110,13 @@ const Data: React.FC<DataProps> = ({ children, autoWidth = false }) => {
  *         <SelectBox ... />
  *       </SearchCondition.Data>
  *     </SearchCondition.Col>
+ *   </SearchCondition.Row>
+ *
+ *   // 3컬럼 레이아웃
+ *   <SearchCondition.Row columns={3}>
+ *     <SearchCondition.Col label="필드1">...</SearchCondition.Col>
+ *     <SearchCondition.Col label="필드2">...</SearchCondition.Col>
+ *     <SearchCondition.Col label="필드3">...</SearchCondition.Col>
  *   </SearchCondition.Row>
  * </SearchCondition>
  * ```

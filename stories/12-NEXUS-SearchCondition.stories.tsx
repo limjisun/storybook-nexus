@@ -208,7 +208,7 @@ export const WithMultipleFields: Story = {
             { text: '조회', type: 'default', onClick: () => alert('조회!') },
           ]}
         >
-          <SearchCondition.Row twoColumns>
+          <SearchCondition.Row columns={2}>
             <SearchCondition.Col label="종류">
               <SearchCondition.Data>
                 <DrillDown
@@ -276,7 +276,7 @@ export const WithMultipleFields: Story = {
 /**
  * 2-Column 레이아웃
  *
- * twoColumns prop으로 2열 레이아웃을 만들 수 있습니다.
+ * columns={2} prop으로 2열 레이아웃을 만들 수 있습니다.
  */
 export const TwoColumnLayout: Story = {
   render: () => (
@@ -287,7 +287,7 @@ export const TwoColumnLayout: Story = {
         { text: '조회', type: 'default', onClick: () => alert('조회!') },
       ]}
     >
-      <SearchCondition.Row twoColumns>
+      <SearchCondition.Row columns={2}>
         <SearchCondition.Col label="종류">
           <SearchCondition.Data>
             <SelectBox
@@ -341,6 +341,218 @@ export const TwoColumnLayout: Story = {
 };
 
 /**
+ * 3-Column 레이아웃
+ *
+ * columns={3} prop으로 3열 레이아웃을 만들 수 있습니다.
+ */
+export const ThreeColumnLayout: Story = {
+  render: () => (
+    <SearchCondition
+      title="조회 조건 - 3열 레이아웃"
+      buttons={[
+        { text: '취소', type: 'normal', onClick: () => alert('취소') },
+        { text: '조회', type: 'default', onClick: () => alert('조회!') },
+      ]}
+    >
+      <SearchCondition.Row columns={3}>
+        <SearchCondition.Col label="필드1">
+          <SearchCondition.Data>
+            <SelectBox
+              dataSource={mockTeamOptions}
+              valueExpr="value"
+              displayExpr="label"
+              placeholder="선택"
+              stylingMode="outlined"
+            />
+          </SearchCondition.Data>
+        </SearchCondition.Col>
+        <SearchCondition.Col label="필드2">
+          <SearchCondition.Data>
+            <SelectBox
+              dataSource={mockSortOptions}
+              valueExpr="value"
+              displayExpr="label"
+              placeholder="선택"
+              stylingMode="outlined"
+            />
+          </SearchCondition.Data>
+        </SearchCondition.Col>
+        <SearchCondition.Col label="필드3">
+          <SearchCondition.Data>
+            <SelectBox
+              dataSource={mockTeamOptions}
+              valueExpr="value"
+              displayExpr="label"
+              placeholder="선택"
+              stylingMode="outlined"
+            />
+          </SearchCondition.Data>
+        </SearchCondition.Col>
+      </SearchCondition.Row>
+    </SearchCondition>
+  ),
+};
+
+/**
+ * 4-Column 레이아웃
+ *
+ * columns={4} prop으로 4열 레이아웃을 만들 수 있습니다.
+ */
+export const FourColumnLayout: Story = {
+  render: () => (
+    <SearchCondition
+      title="조회 조건 - 4열 레이아웃"
+      buttons={[
+        { text: '취소', type: 'normal', onClick: () => alert('취소') },
+        { text: '조회', type: 'default', onClick: () => alert('조회!') },
+      ]}
+    >
+      <SearchCondition.Row columns={4}>
+        <SearchCondition.Col label="필드1">
+          <SearchCondition.Data>
+            <SelectBox
+              dataSource={mockTeamOptions}
+              valueExpr="value"
+              displayExpr="label"
+              placeholder="선택"
+              stylingMode="outlined"
+            />
+          </SearchCondition.Data>
+        </SearchCondition.Col>
+        <SearchCondition.Col label="필드2">
+          <SearchCondition.Data>
+            <SelectBox
+              dataSource={mockSortOptions}
+              valueExpr="value"
+              displayExpr="label"
+              placeholder="선택"
+              stylingMode="outlined"
+            />
+          </SearchCondition.Data>
+        </SearchCondition.Col>
+        <SearchCondition.Col label="필드3">
+          <SearchCondition.Data>
+            <SelectBox
+              dataSource={mockTeamOptions}
+              valueExpr="value"
+              displayExpr="label"
+              placeholder="선택"
+              stylingMode="outlined"
+            />
+          </SearchCondition.Data>
+        </SearchCondition.Col>
+        <SearchCondition.Col label="필드4">
+          <SearchCondition.Data>
+            <SelectBox
+              dataSource={mockSortOptions}
+              valueExpr="value"
+              displayExpr="label"
+              placeholder="선택"
+              stylingMode="outlined"
+            />
+          </SearchCondition.Data>
+        </SearchCondition.Col>
+      </SearchCondition.Row>
+    </SearchCondition>
+  ),
+};
+
+/**
+ * 다양한 컬럼 레이아웃 조합
+ *
+ * 여러 Row를 조합하여 각각 다른 컬럼 수를 사용할 수 있습니다.
+ */
+export const MixedColumnLayout: Story = {
+  render: () => (
+    <SearchCondition
+      title="조회 조건 - 다양한 컬럼 레이아웃"
+      buttons={[
+        { text: '취소', type: 'normal', onClick: () => alert('취소') },
+        { text: '조회', type: 'default', onClick: () => alert('조회!') },
+      ]}
+    >
+      {/* 1열 */}
+      <SearchCondition.Row>
+        <SearchCondition.Col label="전체 너비">
+          <SearchCondition.Data>
+            <SelectBox
+              dataSource={mockTeamOptions}
+              valueExpr="value"
+              displayExpr="label"
+              placeholder="1열 레이아웃"
+              stylingMode="outlined"
+            />
+          </SearchCondition.Data>
+        </SearchCondition.Col>
+      </SearchCondition.Row>
+
+      {/* 2열 */}
+      <SearchCondition.Row columns={2}>
+        <SearchCondition.Col label="좌측">
+          <SearchCondition.Data>
+            <SelectBox
+              dataSource={mockTeamOptions}
+              valueExpr="value"
+              displayExpr="label"
+              placeholder="2열 - 좌측"
+              stylingMode="outlined"
+            />
+          </SearchCondition.Data>
+        </SearchCondition.Col>
+        <SearchCondition.Col label="우측">
+          <SearchCondition.Data>
+            <SelectBox
+              dataSource={mockSortOptions}
+              valueExpr="value"
+              displayExpr="label"
+              placeholder="2열 - 우측"
+              stylingMode="outlined"
+            />
+          </SearchCondition.Data>
+        </SearchCondition.Col>
+      </SearchCondition.Row>
+
+      {/* 3열 */}
+      <SearchCondition.Row columns={3}>
+        <SearchCondition.Col label="A">
+          <SearchCondition.Data>
+            <SelectBox
+              dataSource={mockTeamOptions}
+              valueExpr="value"
+              displayExpr="label"
+              placeholder="3열"
+              stylingMode="outlined"
+            />
+          </SearchCondition.Data>
+        </SearchCondition.Col>
+        <SearchCondition.Col label="B">
+          <SearchCondition.Data>
+            <SelectBox
+              dataSource={mockSortOptions}
+              valueExpr="value"
+              displayExpr="label"
+              placeholder="3열"
+              stylingMode="outlined"
+            />
+          </SearchCondition.Data>
+        </SearchCondition.Col>
+        <SearchCondition.Col label="C">
+          <SearchCondition.Data>
+            <SelectBox
+              dataSource={mockTeamOptions}
+              valueExpr="value"
+              displayExpr="label"
+              placeholder="3열"
+              stylingMode="outlined"
+            />
+          </SearchCondition.Data>
+        </SearchCondition.Col>
+      </SearchCondition.Row>
+    </SearchCondition>
+  ),
+};
+
+/**
  * 다국어 지원 - 한국어
  *
  * `lang="ko"` 속성을 사용하여 한국어 레이블 너비(70px)를 적용합니다.
@@ -356,7 +568,7 @@ export const I18nKorean: Story = {
           { text: '조회', type: 'default', onClick: () => alert('조회!') },
         ]}
       >
-        <SearchCondition.Row twoColumns>
+        <SearchCondition.Row columns={2}>
           <SearchCondition.Col label="종류">
             <SearchCondition.Data>
               <SelectBox
@@ -426,7 +638,7 @@ export const I18nEnglish: Story = {
           { text: 'Search', type: 'default', onClick: () => alert('Search!') },
         ]}
       >
-        <SearchCondition.Row twoColumns>
+        <SearchCondition.Row columns={2}>
           <SearchCondition.Col label="Category">
             <SearchCondition.Data>
               <SelectBox
@@ -508,7 +720,7 @@ export const I18nComparison: Story = {
               { text: '조회', type: 'default', onClick: () => {} },
             ]}
           >
-            <SearchCondition.Row twoColumns>
+            <SearchCondition.Row columns={2}>
               <SearchCondition.Col label="종류">
                 <SearchCondition.Data>
                   <SelectBox
@@ -548,7 +760,7 @@ export const I18nComparison: Story = {
               { text: 'Search', type: 'default', onClick: () => {} },
             ]}
           >
-            <SearchCondition.Row twoColumns>
+            <SearchCondition.Row columns={2}>
               <SearchCondition.Col label="Category">
                 <SearchCondition.Data>
                   <SelectBox
