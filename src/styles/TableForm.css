@@ -1,0 +1,120 @@
+/* Table Form Styles */
+
+.table-form {
+  border-top: 1px solid #E3E3E3;
+  border-bottom: 1px solid #e3e3e3;
+}
+
+.table-form__section {
+  border-bottom: 1px solid #E3E3E3;
+}
+
+.table-form__section:last-child {
+  border-bottom: 0;
+}
+
+.table-form__row {
+  display: flex;
+  align-items: stretch;
+  min-height: 35px;
+}
+
+.table-form__label {
+  min-width: 140px;
+  color: #222;
+  flex-shrink: 0;
+  background: #F8F8F8;
+  align-items: center;
+  display: flex;
+  padding: 0 10px;
+}
+
+.table-form__content {
+  flex: 1;
+  align-items: center;
+  display: flex;
+  padding: 5px 10px;
+}
+
+.table-form__content .dx-checkbox-text {
+  color: #555;
+}
+
+.table-form__group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.table-form__inline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.table-form__input-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.table-form__checkbox-group {
+  display: flex;
+  gap: 30px;
+}
+
+.table-form__text {
+  color: #555;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+/* Label Size Modifiers */
+.table-form__label--sm {
+  min-width: 100px;
+}
+
+.table-form__label--md {
+  min-width: 140px;
+}
+
+.table-form__label--mlg {
+  min-width: 160px;
+}
+
+.table-form__label--lg {
+  min-width: 180px;
+}
+
+.table-form__label--xl {
+  min-width: 220px;
+}
+
+/* DevExtreme Form Controls */
+.table-form .dx-checkbox {
+  margin-right: 5px;
+}
+
+.table-form .dx-textbox,
+.table-form .dx-numberbox,
+.table-form .dx-selectbox {
+  vertical-align: middle;
+}
+
+/* Edit Button */
+.form-edit-btn {
+  width: 20px;
+  height: 20px;
+  background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE1IDNMMTcgNUw3IDE1SDVWMTNMMTUgM1oiIHN0cm9rZT0iIzU1NSIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zz4K') no-repeat center;
+  background-size: 16px 16px;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 8px;
+  opacity: 0.6;
+  transition: opacity 0.2s ease;
+}
+
+.form-edit-btn:hover {
+  opacity: 1;
+}
