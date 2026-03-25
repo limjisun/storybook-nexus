@@ -1,0 +1,8 @@
+.simple-tabs {width: 100%;}
+.simple-tabs__header {border-bottom: 1px solid #E3E3E3; display: flex;}
+.simple-tabs__tab {background: transparent; border: none; border-bottom: 1px solid transparent; color: #777; cursor: pointer; font-size: 13px; padding: 10px 24px; position: relative; transition: all 0.2s ease;}
+.simple-tabs__tab:hover:not(.simple-tabs__tab--disabled) {color: #374151;}
+.simple-tabs__tab--active {border-bottom-color: #333; color: #333;}
+.simple-tabs__tab--disabled {color: #d1d5db; cursor: not-allowed; opacity: 0.5;}
+.simple-tabs__tab:focus {outline: none;}
+.simple-tabs__tab:focus-visible {border-radius: 4px; outline: 1px solid #333; outline-offset: 2px;}

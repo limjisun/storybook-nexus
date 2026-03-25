@@ -1,0 +1,136 @@
+/* DevExtreme Custom Popup Styles */
+.custom-popup.dx-popup-wrapper > .dx-overlay-content {
+  border-radius: 0;
+}
+
+.custom-popup .dx-popup-title.dx-toolbar {
+  background: #54BCC6;
+  padding: 6px 15px;
+}
+
+.custom-popup .dx-popup-title.dx-toolbar .dx-toolbar-items-container {
+  height: 21px;
+  color: #fff;
+}
+
+.custom-popup .dx-popup-title.dx-toolbar .dx-toolbar-label {
+  font-size: 13px;
+}
+
+.custom-popup .dx-popup-title .dx-toolbar-after .dx-button {
+  background: transparent;
+}
+
+.custom-popup .dx-popup-title .dx-toolbar-after .dx-button .dx-button-content {
+  border: none;
+  padding: 0;
+}
+
+.custom-popup .dx-popup-title.dx-toolbar .dx-icon {
+  display: block;
+  color: #fff;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+.custom-popup .dx-popup-title.dx-toolbar .dx-closebutton {
+  color: #fff;
+  inset-inline-start: 0;
+}
+
+.custom-popup .dx-popup-content {
+  min-height: auto;
+  padding: 0;
+}
+
+.custom-popup .dx-popup-title + .dx-popup-content {
+  min-height: auto;
+  height: calc(100% - 34px) !important;
+  padding: 0;
+  overflow: unset;
+}
+
+.custom-popup .dx-popup-wrapper .dx-state-focused.dx-overlay-content {
+  border-color: #333;
+}
+
+.custom-popup .dx-popup-wrapper > .dx-overlay-content {
+  border-color: #333;
+}
+
+/* Popup Wrap Styles */
+.popup-wrap {
+  display: flex;
+  height: 100%;
+}
+
+.pop-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.pop-conts {
+  flex: 1;
+  overflow: auto;
+}
+
+.pop-conts-in {
+  padding: 24px 30px;
+  max-height: 80vh;
+  max-width: 80vw;
+}
+
+.pop-conts-in__icon {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.pop-footer {
+  padding: 15px;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+/* Button Styles */
+.nexus-button {
+  padding: 8px 20px;
+  border-radius: 0;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.nexus-button--default {
+  background-color: #14AFBE;
+  color: white;
+  border: 1px solid #14AFBE;
+}
+
+.nexus-button--default:hover {
+  background-color: #0f8e9a;
+}
+
+.nexus-button--normal {
+  background-color: #fff;
+  color: #555;
+  border: 1px solid #EBEBEB;
+}
+
+.nexus-button--normal:hover {
+  background-color: #f5f5f5;
+}
+
+.nexus-button--outlined {
+  background-color: transparent;
+  color: #14AFBE;
+  border: 1px solid #14AFBE;
+}
+
+.nexus-button--outlined:hover {
+  background-color: #14AFBE;
+  color: white;
+}
