@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Button from '../form/Button';
 import type { SearchConditionProps } from './types';
+import { KindAndPeriod } from './KindAndPeriod';
 import './SearchCondition.css';
 
 // ========================================
@@ -125,6 +126,7 @@ export const SearchCondition: React.FC<SearchConditionProps> & {
   Row: typeof Row;
   Col: typeof Col;
   Data: typeof Data;
+  KindAndPeriod: typeof KindAndPeriod;
 } = ({
   onSubmit,
   onCancel,
@@ -207,3 +209,4 @@ export const SearchCondition: React.FC<SearchConditionProps> & {
 SearchCondition.Row = Row;
 SearchCondition.Col = Col;
 SearchCondition.Data = Data;
+SearchCondition.KindAndPeriod = KindAndPeriod;

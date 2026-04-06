@@ -7,6 +7,10 @@ import type { DrillDownItem, SelectedTag, SearchResultItem } from './types';
 export interface DrillDownProps {
     /** 계층형 데이터 */
     data: DrillDownItem[];
+    /** 제어 컴포넌트: 현재 선택된 값 */
+    value?: SelectedTag[];
+    /** 비제어 컴포넌트: 초기 선택 값 */
+    defaultValue?: SelectedTag[];
     /** 선택된 값 변경 콜백 */
     onChange?: (selectedTags: SelectedTag[]) => void;
     /** 컬럼 헤더 레이블 */
@@ -44,6 +48,8 @@ export interface DrillDownProps {
  */
 export default function DrillDown({
     data,
+    value,
+    defaultValue,
     onChange,
     levelLabels = [],
     columnMinWidth = 220,
@@ -55,13 +61,16 @@ export default function DrillDown({
     className = '',
 }: DrillDownProps) {
     const [selectedPath, setSelectedPath] = useState<DrillDownItem[]>([]);
-    const [tempSelectedTags, setTempSelectedTags] = useState<SelectedTag[]>([]);
-    const [selectedTags, setSelectedTagsInternal] = useState<SelectedTag[]>([]);
+    const [tempSelectedTags, setTempSelectedTags] = useState<SelectedTag[]>(defaultValue || []);
+    const [selectedTagsInternal, setSelectedTagsInternal] = useState<SelectedTag[]>(defaultValue || []);
     const [isOpen, setIsOpen] = useState(false);
     const [position, setPosition] = useState({ top: 0, left: 0 });
 
     const triggerRef = useRef<HTMLDivElement>(null);
     const dropdownRef = useRef<HTMLDivElement>(null);
+
+    // 제어 컴포넌트: value prop이 있으면 value 사용
+    const selectedTags = value !== undefined ? value : selectedTagsInternal;
 
     const handleLevelClick = (levelIndex: number, item: DrillDownItem) => {
         setSelectedPath((prev) => {
@@ -72,15 +81,23 @@ export default function DrillDown({
     };
 
     const handleSetSelectedTags = (tags: SelectedTag[]) => {
-        setSelectedTagsInternal(tags);
+        // 비제어 컴포넌트일 때만 내부 상태 업데이트
+        if (value === undefined) {
+            setSelectedTagsInternal(tags);
+        }
+        // onChange는 항상 호출
         if (onChange) {
             onChange(tags);
         }
     };
 
     const handleClear = () => {
-        setSelectedTagsInternal([]);
         setTempSelectedTags([]);
+        // 비제어 컴포넌트일 때만 내부 상태 업데이트
+        if (value === undefined) {
+            setSelectedTagsInternal([]);
+        }
+        // onChange는 항상 호출
         if (onChange) {
             onChange([]);
         }

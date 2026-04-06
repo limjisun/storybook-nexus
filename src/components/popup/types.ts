@@ -69,4 +69,7 @@ export interface PopupProps {
 
   /** 컨테이너 선택자 (기본: body) */
   container?: string;
+
+  /** z-index 값 */
+  zIndex?: number;
 }

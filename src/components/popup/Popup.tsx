@@ -25,6 +25,7 @@ export const Popup: React.FC<PopupProps> = ({
   onShowing,
   className,
   container = 'body',
+  zIndex,
 }) => {
   // 버튼 렌더링
   const renderButtons = () => {
@@ -75,7 +76,6 @@ export const Popup: React.FC<PopupProps> = ({
     <DxPopup
       visible={visible}
       dragEnabled={dragEnabled}
-      closeOnOutsideClick={closeOnOutsideClick}
       showCloseButton={showCloseButton}
       showTitle={showTitle}
       title={title}
@@ -90,6 +90,7 @@ export const Popup: React.FC<PopupProps> = ({
       position="center"
       container={container}
       wrapperAttr={{ class: `custom-popup ${className || ''}` }}
+      {...(zIndex && { zIndex })}
     >
       {renderContent()}
     </DxPopup>

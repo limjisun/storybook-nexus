@@ -17,6 +17,8 @@ export interface TooltipProps {
   className?: string;
   /** 아이콘 표시 여부 (children이 없을 때 기본 아이콘 사용) */
   showIcon?: boolean;
+  /** 툴팁 비활성화 여부 */
+  disabled?: boolean;
 }
 
 export const Tooltip: React.FC<TooltipProps> = ({
@@ -27,6 +29,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
   delay = 0,
   className = '',
   showIcon = true,
+  disabled = false,
 }) => {
   const [visible, setVisible] = useState(false);
   const [position, setPosition] = useState({ top: 0, left: 0 });
@@ -63,6 +66,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
   };
 
   const showTooltip = () => {
+    if (disabled) return;
     if (delay > 0) {
       timeoutRef.current = setTimeout(() => {
         setVisible(true);
@@ -93,6 +97,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
   };
 
   const handleClick = () => {
+    if (disabled) return;
     if (trigger === 'click') {
       setVisible(!visible);
     }

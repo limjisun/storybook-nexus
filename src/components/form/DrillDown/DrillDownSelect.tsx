@@ -22,6 +22,8 @@ interface DrillDownSelectProps {
     onSearch?: (keyword: string) => Promise<SearchResultItem[]>;
     /** 선택 모드. 기본값: 'multi' */
     mode?: 'single' | 'multi';
+    /** 드롭다운 전체 너비 (화면 크기에 따라 동적으로 계산됨) */
+    dropdownWidth?: number;
 }
 
 function collectSelfAndDescendants(
@@ -65,7 +67,7 @@ function collectAllLeaves(items: DrillDownItem[], parentPath: string[]): Selecte
 
 /**
  * 아이템의 체크 상태를 반환합니다.
- * - 'all'     : 자신 + 모든 하위가 선택됨 → checked
+ * - 'all'     : 자신이 선택됨 → checked
  * - 'partial' : 일부 하위만 선택됨 → indeterminate
  * - 'none'    : 자신 및 하위 모두 미선택 → unchecked
  */
@@ -74,10 +76,17 @@ function getItemCheckState(
     parentPath: string[],
     selectedKeys: Set<string>
 ): 'all' | 'partial' | 'none' {
+    const currentPath = [...parentPath, item.text];
+    const isCurrentSelected = selectedKeys.has(pathKey(currentPath));
+
+    // 현재 항목이 선택되어 있으면 'all'
+    if (isCurrentSelected) return 'all';
+
+    // 현재 항목은 선택 안 됐지만, 하위 항목 중 선택된 게 있는지 확인
     const allDescendants = collectSelfAndDescendants(item, parentPath);
     const checkedCount = allDescendants.filter((t) => selectedKeys.has(pathKey(t.path))).length;
+
     if (checkedCount === 0) return 'none';
-    if (checkedCount === allDescendants.length) return 'all';
     return 'partial';
 }
 
@@ -95,6 +104,7 @@ export default function DrillDownSelect({
     loadingColumnIndex,
     onSearch,
     mode = 'multi',
+    dropdownWidth,
 }: DrillDownSelectProps) {
 
     const [searchKeyword, setSearchKeyword] = useState('');
@@ -157,10 +167,27 @@ export default function DrillDownSelect({
 
     const handleCheck = (columnIndex: number, item: DrillDownItem) => {
         const parentPath = getParentPathForColumn(columnIndex);
-        const toAdd = collectSelfAndDescendants(item, parentPath);
+        const currentPath = [...parentPath, item.text];
+
+        // 상위 경로 태그 생성 (현재 항목 제외, 조상만)
+        const ancestorTags: SelectedTag[] = [];
+        for (let i = 0; i < columnIndex; i++) {
+            const depthPath = currentPath.slice(0, i + 1);
+            const depthId = selectedPath[i].id;
+            const depthText = currentPath[i];
+            ancestorTags.push({ id: depthId, text: depthText, path: depthPath });
+        }
+
+        // 현재 항목만 추가 (하위 항목은 추가하지 않음)
+        const currentTag: SelectedTag = { id: item.id, text: item.text, path: currentPath };
+
         setTempSelectedTags((prev) => {
             const existingKeys = new Set(prev.map((t) => pathKey(t.path)));
-            const added = toAdd.filter((t) => !existingKeys.has(pathKey(t.path)));
+
+            // 상위 경로 + 현재 항목만 추가
+            const allToAdd = [...ancestorTags, currentTag];
+            const added = allToAdd.filter((t) => !existingKeys.has(pathKey(t.path)));
+
             return added.length ? [...prev, ...added] : prev;
         });
     };
@@ -180,17 +207,29 @@ export default function DrillDownSelect({
         const state = getItemCheckState(item, parentPath, selectedKeys);
 
         if (mode === 'single') {
-            // single 모드: 하나만 선택 가능 - 기존 선택 모두 제거 후 새 항목만 추가
+            // single 모드: 루트부터 선택된 항목까지 전체 경로 체크
             const currentPath = [...parentPath, item.text];
             const currentPathKey = pathKey(currentPath);
             const isCurrentSelected = selectedKeys.has(currentPathKey);
 
             if (isCurrentSelected) {
-                // 이미 선택된 항목 클릭 시 해제
+                // 이미 선택된 항목 클릭 시 전체 경로 선택 해제
                 setTempSelectedTags([]);
             } else {
-                // 모든 선택 제거 후 현재 항목만 추가
-                setTempSelectedTags([{ id: item.id, text: item.text, path: currentPath }]);
+                // 전체 경로 선택: 루트부터 현재 항목까지 모든 경로 추가
+                const allPathTags: SelectedTag[] = [];
+                const pathIds = selectedPath.slice(0, columnIndex).map((n) => n.id);
+                pathIds.push(item.id);
+
+                // 각 depth별로 태그 생성
+                for (let i = 0; i <= columnIndex; i++) {
+                    const depthPath = currentPath.slice(0, i + 1);
+                    const depthId = i < columnIndex ? selectedPath[i].id : item.id;
+                    const depthText = currentPath[i];
+                    allPathTags.push({ id: depthId, text: depthText, path: depthPath });
+                }
+
+                setTempSelectedTags(allPathTags);
             }
         } else {
             // multi 모드: none → 전체 선택, partial/all → 전체 해제
@@ -201,19 +240,29 @@ export default function DrillDownSelect({
 
     const handleSearchResultToggle = (item: SearchResultItem) => {
         const path = item.pathLabels;
+        const pathIds = item.pathIds;
         const isAlreadySelected = tempSelectedTags.some((t) => pathKey(t.path) === pathKey(path));
 
         if (mode === 'single') {
-            const currentDepth = path.length - 1;
             if (isAlreadySelected) {
-                // 선택 해제
-                setTempSelectedTags((prev) => prev.filter((t) => t.path.length - 1 !== currentDepth));
+                // 선택 해제: 해당 경로 및 상위 뎁스 태그 모두 제거
+                setTempSelectedTags((prev) =>
+                    prev.filter(
+                        (t) =>
+                            !(
+                                t.path.length <= path.length &&
+                                path.every((p, i) => t.path[i] === p)
+                            )
+                    )
+                );
             } else {
-                // 같은 depth 항목 제거 후 새 항목 추가
-                setTempSelectedTags((prev) => {
-                    const filtered = prev.filter((t) => t.path.length - 1 !== currentDepth);
-                    return [...filtered, { id: item.id, text: item.text, path }];
-                });
+                // 같은 depth 항목 제거 후, 경로 전체 뎁스 태그만 설정 (단일 선택이므로 이 경로만 유지)
+                const pathPrefixTags: SelectedTag[] = path.map((label, i) => ({
+                    id: pathIds[i],
+                    text: label,
+                    path: path.slice(0, i + 1),
+                }));
+                setTempSelectedTags(pathPrefixTags);
             }
         } else {
             if (isAlreadySelected) {
@@ -221,11 +270,18 @@ export default function DrillDownSelect({
                     prev.filter((t) => !isSelfOrDescendant(t.path, path))
                 );
             } else {
+                // 상위 경로 뎁스 태그 + 자신 및 하위 항목 추가 (해당 뎁스에 체크되도록)
+                const ancestorTags: SelectedTag[] = path.slice(0, -1).map((label, i) => ({
+                    id: pathIds[i],
+                    text: label,
+                    path: path.slice(0, i + 1),
+                }));
                 const parentPath = path.slice(0, -1);
                 const toAdd = collectSelfAndDescendants(item, parentPath);
+                const allToAdd = [...ancestorTags, ...toAdd];
                 setTempSelectedTags((prev) => {
                     const existingKeys = new Set(prev.map((t) => pathKey(t.path)));
-                    const added = toAdd.filter((t) => !existingKeys.has(pathKey(t.path)));
+                    const added = allToAdd.filter((t) => !existingKeys.has(pathKey(t.path)));
                     return added.length ? [...prev, ...added] : prev;
                 });
             }
@@ -257,9 +313,20 @@ export default function DrillDownSelect({
             const columnKeys = new Set(columnTags.map((t) => pathKey(t.path)));
             setTempSelectedTags((prev) => prev.filter((t) => !columnKeys.has(pathKey(t.path))));
         } else {
+            // 상위 경로 태그 생성 (컬럼 인덱스보다 위에 있는 모든 경로)
+            const ancestorTags: SelectedTag[] = [];
+            for (let i = 0; i < columnIndex; i++) {
+                const depthPath = parentPath.slice(0, i + 1);
+                const depthId = selectedPath[i].id;
+                const depthText = parentPath[i];
+                ancestorTags.push({ id: depthId, text: depthText, path: depthPath });
+            }
+
             setTempSelectedTags((prev) => {
                 const existingKeys = new Set(prev.map((t) => pathKey(t.path)));
-                const added = columnTags.filter((t) => !existingKeys.has(pathKey(t.path)));
+                // 상위 경로 + 현재 컬럼의 모든 항목 추가
+                const allToAdd = [...ancestorTags, ...columnTags];
+                const added = allToAdd.filter((t) => !existingKeys.has(pathKey(t.path)));
                 return added.length ? [...prev, ...added] : prev;
             });
         }
@@ -274,10 +341,11 @@ export default function DrillDownSelect({
         );
     }
 
-    const dropdownWidth = columnCount * columnMinWidth + (columnCount - 1) * 17 + 30; // 패딩 15px * 2
+    // dropdownWidth가 prop으로 전달되지 않으면 기본 계산식 사용
+    const calculatedWidth = dropdownWidth ?? (columnCount * columnMinWidth + (columnCount - 1) * 17 + 30);
 
     return (
-        <div className="drilldown__dropdown" style={{ width: dropdownWidth }}>
+        <div className="drilldown__dropdown" style={{ width: calculatedWidth }}>
 
             {/* 검색 영역 - onSearch prop이 있을 때만 표시 */}
             {onSearch && (
@@ -353,7 +421,7 @@ export default function DrillDownSelect({
                             <div
                                 key={columnIndex}
                                 className="drilldown__column"
-                                style={{ minWidth: columnMinWidth }}
+                                style={{ width: columnMinWidth }}
                             >
                                 {/* 컬럼 헤더 */}
                                 <div className="drilldown__column-header">
@@ -395,7 +463,7 @@ export default function DrillDownSelect({
 
                                             return (
                                                 <div
-                                                    key={item.id}
+                                                    key={`${columnIndex}-${item.id}`}
                                                     className={`drilldown__item${isActive ? ' drilldown__item--active' : ''}`}
                                                     onClick={() => onLevelClick(columnIndex, item)}
                                                 >
@@ -409,7 +477,7 @@ export default function DrillDownSelect({
                                                             />
                                                         ) : (
                                                             <Checkbox
-                                                                id={`drilldown-item-${item.id}`}
+                                                                id={`drilldown-item-${columnIndex}-${item.id}`}
                                                                 checked={checkState === 'all'}
                                                                 indeterminate={checkState === 'partial'}
                                                                 onChange={() => {}}

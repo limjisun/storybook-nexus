@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useLayoutEffect } from 'react';
 import '../Select.css';
 import './DrillDown.css';
 import { Tooltip } from '../../Tooltip/Tooltip';
@@ -46,6 +46,7 @@ export default function DrillDownTrigger({
 }: DrillDownTriggerProps) {
     const containerRef = useRef<HTMLDivElement>(null);
     const measureRef = useRef<HTMLSpanElement>(null);
+    const hiddenMeasureRef = useRef<HTMLSpanElement>(null);
     const [isOverflowing, setIsOverflowing] = useState(false);
 
     // single mode일 때는 가장 긴 경로 하나만, multi mode일 때는 leaf 노드들만
@@ -62,21 +63,21 @@ export default function DrillDownTrigger({
     // path 텍스트 생성
     const pathText = leafTags.map((tag) => tag.path.join(' > ')).join(', ');
 
-    useEffect(() => {
-        if (!containerRef.current || !measureRef.current || selectedTags.length === 0) {
+    useLayoutEffect(() => {
+        if (!containerRef.current || !hiddenMeasureRef.current || selectedTags.length === 0) {
             setIsOverflowing(false);
             return;
         }
 
         const checkOverflow = () => {
             const container = containerRef.current;
-            const measure = measureRef.current;
-            if (!container || !measure) return;
+            const hiddenMeasure = hiddenMeasureRef.current;
+            if (!container || !hiddenMeasure) return;
 
-            // measure의 실제 콘텐츠 너비와 container의 가용 너비 비교
+            // 숨겨진 요소의 실제 콘텐츠 너비와 container의 가용 너비 비교
             // × 버튼(약 20px) + 화살표 여백(약 30px) 제외
             const availableWidth = container.clientWidth - 50;
-            const contentWidth = measure.scrollWidth;
+            const contentWidth = hiddenMeasure.offsetWidth;
 
             setIsOverflowing(contentWidth > availableWidth);
         };
@@ -111,12 +112,27 @@ export default function DrillDownTrigger({
             ref={containerRef}
             className={`select select--${variant} ${isOpen ? 'select--open' : ''} ${disabled ? 'select--disabled' : ''} ${className}`}
         >
+            {/* 숨겨진 측정용 요소 */}
+            <span
+                ref={hiddenMeasureRef}
+                className="drilldown-trigger__hidden-measure"
+                style={{
+                    position: 'absolute',
+                    visibility: 'hidden',
+                    whiteSpace: 'nowrap',
+                    pointerEvents: 'none',
+                }}
+            >
+                {pathText}
+            </span>
+
             {selectedTags.length > 0 ? (
                 <Tooltip
                     content={tableContent}
                     placement="bottom"
                     trigger="hover"
                     className="drilldown-trigger__tooltip"
+                    disabled={isOpen}
                 >
                     <div className="select__trigger" onClick={!disabled ? onClick : undefined}>
                         <span className="select__value">
